@@ -17,7 +17,7 @@ export function Projects() {
               i === 0 ? 'md:col-span-2' : ''
             }
           >
-            <article className="group flex h-full flex-col justify-between rounded-2xl border border-border bg-card p-7 transition-colors hover:border-foreground/20">
+            <article className="group flex h-full flex-col justify-between rounded-2xl border border-border bg-card/80 p-7 backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.45)]">
               <div>
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="font-serif text-xl font-semibold tracking-tight sm:text-2xl">

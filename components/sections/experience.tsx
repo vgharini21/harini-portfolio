@@ -16,7 +16,7 @@ export function Experience() {
               as="li"
               key={exp.company}
               delay={i * 60}
-              className="grid gap-x-8 gap-y-4 border-t border-border py-10 md:grid-cols-[220px_1fr]"
+              className="group -mx-4 grid gap-x-8 gap-y-4 rounded-xl border-t border-border px-4 py-10 transition-colors duration-300 hover:bg-card/60"
             >
               <div className="flex flex-col gap-1">
                 <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">

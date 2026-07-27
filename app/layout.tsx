@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter, Fraunces, JetBrains_Mono } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
+import { AnimatedBackground } from '@/components/animated-background'
 import './globals.css'
 
 const inter = Inter({
@@ -70,6 +71,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <AnimatedBackground />
           {children}
         </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
