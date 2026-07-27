@@ -10,7 +10,8 @@ export function Hero() {
       className="relative mx-auto flex min-h-svh max-w-6xl flex-col justify-center px-6 pt-28 pb-20 lg:px-8"
     >
       <Reveal>
-        <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+        <p className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+          <span className="text-accent text-[10px] select-none" aria-hidden>✦</span>
           {profile.location}
         </p>
       </Reveal>

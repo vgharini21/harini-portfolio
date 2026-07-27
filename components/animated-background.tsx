@@ -2,11 +2,19 @@
 
 import { useEffect, useState } from 'react'
 
+const particles = [
+  { char: '✦', top: '15%', left: '12%', delay: '0s', class: 'animate-particle-slow' },
+  { char: '+', top: '28%', left: '85%', delay: '3s', class: 'animate-particle-reverse' },
+  { char: '×', top: '45%', left: '8%', delay: '6s', class: 'animate-particle-slow' },
+  { char: '✦', top: '62%', left: '90%', delay: '2s', class: 'animate-particle-reverse' },
+  { char: '+', top: '75%', left: '18%', delay: '4s', class: 'animate-particle-slow' },
+  { char: '•', top: '88%', left: '82%', delay: '1s', class: 'animate-particle-reverse' },
+]
+
 export function AnimatedBackground() {
   const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 })
 
   useEffect(() => {
-    // Set initial position to center of screen once mounted
     if (typeof window !== 'undefined') {
       setMousePos({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
     }
@@ -24,24 +32,38 @@ export function AnimatedBackground() {
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      {/* Subtle grid */}
+      {/* Technical grid */}
       <div className="bg-grid absolute inset-0" />
 
-      {/* Cursor spotlight glow - High contrast & visibility testing */}
+      {/* Refined subtle cursor spotlight glow */}
       <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-150"
+        className="absolute inset-0 pointer-events-none transition-opacity duration-200"
         style={{
-          background: `radial-gradient(500px circle at ${mousePos.x}px ${mousePos.y}px, var(--accent) 0%, transparent 70%)`,
-          opacity: 0.55,
+          background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, var(--accent) 0%, transparent 70%)`,
+          opacity: 0.28,
         }}
       />
 
-      {/* Soft drifting glow orbs */}
+      {/* Ambient drifting glow orbs (Primary warm accent + Secondary cool cyan) */}
       <div className="bg-orb bg-orb-1" />
       <div className="bg-orb bg-orb-2" />
+      <div className="bg-orb bg-orb-cyan" />
       <div className="bg-orb bg-orb-3" />
 
-      {/* Vignette to keep edges calm and text readable */}
+      {/* Low-opacity technical floating micro-particles */}
+      <div className="absolute inset-0 pointer-events-none select-none">
+        {particles.map((p, i) => (
+          <span
+            key={i}
+            style={{ top: p.top, left: p.left, animationDelay: p.delay }}
+            className={`absolute font-mono text-[11px] text-muted-foreground/30 ${p.class}`}
+          >
+            {p.char}
+          </span>
+        ))}
+      </div>
+
+      {/* Vignette overlay */}
       <div className="bg-vignette absolute inset-0" />
     </div>
   )

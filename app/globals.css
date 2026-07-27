@@ -63,12 +63,13 @@
   --muted: oklch(0.955 0.006 85);
   --muted-foreground: oklch(0.52 0.008 70);
   --accent: oklch(0.62 0.13 36);
+  --accent-secondary: oklch(0.65 0.11 220);
   --accent-foreground: oklch(0.985 0.004 90);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.9 0.006 80);
   --input: oklch(0.9 0.006 80);
-  --ring: oklch(0.62 0.13 36);
-  --chart-1: oklch(0.62 0.13 36);
+  --ring: var(--accent);
+  --chart-1: var(--accent);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
@@ -81,7 +82,7 @@
   --sidebar-accent: oklch(0.955 0.006 85);
   --sidebar-accent-foreground: oklch(0.24 0.006 60);
   --sidebar-border: oklch(0.9 0.006 80);
-  --sidebar-ring: oklch(0.62 0.13 36);
+  --sidebar-ring: var(--accent);
 }
 
 .dark {
@@ -98,13 +99,14 @@
   --secondary-foreground: oklch(0.93 0.004 80);
   --muted: oklch(0.25 0.005 60);
   --muted-foreground: oklch(0.66 0.008 70);
-  --accent: oklch(0.7 0.14 40);
+  --accent: oklch(0.70 0.14 40);
+  --accent-secondary: oklch(0.65 0.12 220);
   --accent-foreground: oklch(0.16 0.004 60);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 9%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.7 0.14 40);
-  --chart-1: oklch(0.7 0.14 40);
+  --ring: var(--accent);
+  --chart-1: var(--accent);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
@@ -116,7 +118,54 @@
   --sidebar-accent: oklch(0.25 0.005 60);
   --sidebar-accent-foreground: oklch(0.93 0.004 80);
   --sidebar-border: oklch(1 0 0 / 9%);
-  --sidebar-ring: oklch(0.7 0.14 40);
+  --sidebar-ring: var(--accent);
+}
+
+/* ==========================================================================
+   THEME PRESETS (CSS Variable Driven)
+   Switch theme by adding [data-theme="theme-a" | "theme-b" | "theme-c"] or
+   by editing the --accent and --accent-secondary variables below.
+   ========================================================================== */
+
+/* Theme A: Warm Copper + Subtle Cyan (Active Default) */
+:root,
+[data-theme='theme-a'],
+[data-theme='a'] {
+  --accent: oklch(0.62 0.13 36);
+  --accent-secondary: oklch(0.65 0.11 220);
+}
+
+.dark,
+.dark[data-theme='theme-a'],
+.dark[data-theme='a'] {
+  --accent: oklch(0.70 0.14 40);
+  --accent-secondary: oklch(0.65 0.12 220);
+}
+
+/* Theme B: Electric Blue + Violet */
+[data-theme='theme-b'],
+[data-theme='b'] {
+  --accent: oklch(0.60 0.20 250);
+  --accent-secondary: oklch(0.62 0.20 300);
+}
+
+.dark[data-theme='theme-b'],
+.dark[data-theme='b'] {
+  --accent: oklch(0.68 0.22 250);
+  --accent-secondary: oklch(0.70 0.22 300);
+}
+
+/* Theme C: Monochrome + Cyan Accent */
+[data-theme='theme-c'],
+[data-theme='c'] {
+  --accent: oklch(0.65 0.18 190);
+  --accent-secondary: oklch(0.55 0.02 240);
+}
+
+.dark[data-theme='theme-c'],
+.dark[data-theme='c'] {
+  --accent: oklch(0.72 0.18 190);
+  --accent-secondary: oklch(0.80 0.01 240);
 }
 
 @layer base {
@@ -200,10 +249,32 @@
   right: -8rem;
   background: radial-gradient(
     circle at center,
-    color-mix(in oklch, var(--accent) 70%, var(--muted-foreground)),
+    color-mix(in oklch, var(--accent) 60%, var(--muted-foreground)),
     transparent 70%
   );
   animation: orb-drift-2 36s ease-in-out infinite alternate;
+}
+
+/* Secondary ambient glow using --accent-secondary for dual-tone theme depth */
+.bg-orb-cyan {
+  width: 38rem;
+  height: 38rem;
+  top: 35%;
+  right: -10rem;
+  background: radial-gradient(
+    circle at center,
+    color-mix(in oklch, var(--accent-secondary) 75%, transparent),
+    transparent 70%
+  );
+  animation: orb-drift-2 42s ease-in-out infinite alternate;
+}
+
+.dark .bg-orb-cyan {
+  background: radial-gradient(
+    circle at center,
+    oklch(0.65 0.12 220 / 0.25),
+    transparent 70%
+  );
 }
 
 .bg-orb-3 {
@@ -213,7 +284,7 @@
   left: 25%;
   background: radial-gradient(
     circle at center,
-    color-mix(in oklch, var(--accent) 40%, var(--foreground)),
+    color-mix(in oklch, var(--accent) 35%, var(--foreground)),
     transparent 70%
   );
   opacity: 0.45;
@@ -226,6 +297,37 @@
     transparent 55%,
     var(--background) 100%
   );
+}
+
+/* Floating technical micro-particles */
+@keyframes float-particle-slow {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translate3d(14px, -22px, 0) scale(1.15);
+    opacity: 0.35;
+  }
+}
+
+@keyframes float-particle-reverse {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translate3d(-16px, 18px, 0) scale(0.9);
+    opacity: 0.4;
+  }
+}
+
+.animate-particle-slow {
+  animation: float-particle-slow 22s ease-in-out infinite;
+}
+
+.animate-particle-reverse {
+  animation: float-particle-reverse 28s ease-in-out infinite;
 }
 
 @keyframes orb-drift-1 {

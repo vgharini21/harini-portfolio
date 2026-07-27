@@ -1,0 +1,61 @@
+
+
+Harini Vinu
++1 (929) 719-5385 |vgharini21@gmail.com| LinkedIn| GitHub
+EDUCATION
+Master of Science, Computer ScienceSeptember 2024 — May 2026
+New York University, New YorkGPA:3.74/4.00
+Courses:Data Structures & Algorithms, Distributed Systems, Big Data, Cloud Computing, Blockchain, Machine Learning, Deep Learning
+Bachelor of Technology, Computer ScienceSeptember 2020 — May 2024
+SRM Institute of Science and TechnologyGPA:3.8/4.00
+Courses:Artificial Intelligence, OOPs, Operating Systems, Software Engineering, Computer Network, System Design, Database Systems
+EXPERIENCE
+Software Engineering InternMay 2025 — August 2025
+Qualitest – CoCo (AI-driven Test Optimization Platform)New York, United States
+• Developed backend services for AI-driven test orchestration usingPython, Redis(caching, queue-based processing), andMongoDB.
+• Enabled reliable distributed job scheduling across100+concurrent tasks across large-scale automated workflows.
+• Engineered scalable data processing pipelines for large test datasets using asynchronous queue-based processing and optimized
+aggregation logic, reducing execution time by40%in high-throughput distributed systems.
+• Integratedmonitoring&fault-tolerantretry mechanisms for distributed jobs, improving system reliability & reducing job failures by30%.
+• Architected backend services to manage test workflows, improving automation scalability and service orchestration.
+Software Engineering InternJune 2025 — August 2025
+LOCOMeXNew York, United States
+• Designed data validation and processing services to handle100K+records, ensuring consistency across large-scale ingestion workflows.
+• Optimized query execution andREST APIsperformance by restructuring hierarchical data models and database access patterns.
+• Built scalable microservices using event-driven architecture to propagate risk signals across supplier networks in real time.
+• Implemented aggregation, transformation and normalization logic for large supplier datasets, improving ESG risk scoring accuracy and
+reducing latency by30%.
+Big Data Engineer InternJanuary 2025 — May 2025
+New York UniversityNew York, United States
+• Engineered distributed data pipelines usingApache Spark, Kafka, & Hadoopto process10M+records across scalable clusters.
+• Accelerated automation tools to streamline workflow reliability, cutting issue resolution time by90%.
+• Optimized scalable data ingestion and processing modules with real-world datasets, improving distributed system efficiency by25%.
+• Designed real-time streaming data ingestion systems using Kafka producers and consumers, enabling near-real-time analytics and
+reducing data latency for downstream reports.
+Software Engineering InternDecember 2021 — February 2022
+Skill VertexChennai, India
+• Built a hand detection and gesture recognition system withPython, OpenCV, and Google AI tools, improving detection accuracy by40%.
+• Enhanced object tracking and optimized machine-learning pipelines using preprocessing and hyperparameter tuning, which cut false
+detections by15%, lowered latency by25%, and achieved real-time processing at 30 FPS on over 1,000 test samples.
+PROJECTS
+Dining Concierge Chatbot |AWS Lambda, API Gateway, DynamoDBGitHub↗September 2025 — October 2025
+• Developed serverless microservices usingAWS (S3, API Gateway, Lambda, Lex, DynamoDB, Elasticsearch)integrated with theYelp API
+to deliver real-time restaurant recommendations through a conversational chatbot. Orchestrated asynchronous workflows usingSQS,
+enabled automated personalized alerts viaSES, and leveragedCloudWatchfor monitoring, logging, and event-driven scheduling.
+Real-Time Stock Market Analysis System |Kafka, Spark Streaming, HadoopGitHub↗September 2024 — October 2024
+• Designed a distributed streaming analytics platform usingKafka, Spark Streaming, & Hadoopto process live financial data feeds. Built
+backend services for computing technical indicators and storing high-volume time-series data inPostgreSQL&InfluxDB, enabling
+low-latency analytics. Deployed data ingestion pipelines & usedGrafanafor performance monitoring & analytics visualization.
+Real-Time Video Monitoring and Alert System |AWS Kinesis, Lambda, DynamoDBGitHub↗January 2025 — May 2025
+• Built a scalable real-time monitoring system usingAWS Kinesis, Lambda, SQS, DynamoDB, and Rekognitionto process live data streams
+and perform real-time image analysis, generating low-latency insights and alerts. Designed event-driven backend services to trigger
+notifications with millisecond-level latency and data storage layers for real-time monitoring dashboards. Implemented analytics pipelines
+usingElasticsearchandAWS QuickSightto analyze streaming event data and provide operational insights.
+TECHNICAL SKILLS
+Programming & Languages:Python, C++, Java, Scala, Go, JavaScript, Bash
+Backend & APIs:Microservices Architecture, Spring Boot, FastAPI, Django, Flask, gRPC, GraphQL, REST APIs, OpenAPI, Swagger
+Data & Machine Learning:TensorFlow, Scikit-learn, OpenCV, Computer Vision, ML Pipelines, Hadoop, Hive, Akka
+Databases & Caching:MySQL, PostgreSQL, MongoDB, Redis, InfluxDB, SQLite, Hibernate
+Cloud, DevOps, Distributed Systems & Monitoring:AWS (Kinesis, Step Functions, CloudFront, CloudFormation, Cognito, Rekognition),
+Serverless, Docker, Kubernetes, Terraform, Jenkins, Prometheus, Grafana, Splunk, Ansible, Linux/Unix
+Certifications: NYU: CareerHub Data Science Bootcamp ;Accenture: AI;Infosys SpringBoard: Java Certified Foundation Associate
