@@ -17,7 +17,7 @@ export function About() {
           ))}
         </div>
         <Reveal delay={120}>
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-8 rounded-xl border border-border bg-card p-6 md:grid-cols-1">
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-8 rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-accent/30 hover:shadow-xs md:grid-cols-1">
             <div>
               <dt className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
                 Focus

@@ -9,7 +9,7 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/',
   resume: '/Harini_Vinu_Resume.pdf',
   intro:
-    'Software Engineer and AI Engineer focused on building reliable distributed systems, scalable backend services, and data-intensive pipelines. Currently pursuing an MS in Computer Science at NYU, with hands-on experience across large-scale orchestration, real-time streaming, and machine learning.',
+    'Software Engineer and AI Engineer focused on building reliable distributed systems, scalable backend services, and data-intensive pipelines. Graduated with an MS in Computer Science from NYU, with hands-on experience across large-scale orchestration, real-time streaming, and machine learning.',
 }
 
 export const about = [

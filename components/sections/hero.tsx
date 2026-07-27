@@ -41,34 +41,34 @@ export function Hero() {
             href={profile.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all duration-200 hover:opacity-95 active:scale-[0.98]"
           >
-            <FileText className="h-4 w-4" />
+            <FileText className="h-4 w-4 transition-transform duration-200 group-hover:scale-105" />
             Resume
           </a>
           <a
             href={profile.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-foreground/30 hover:bg-secondary"
+            className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-secondary/70 active:scale-[0.98]"
           >
-            <GithubIcon className="h-4 w-4" />
+            <GithubIcon className="h-4 w-4 transition-transform duration-200 group-hover:scale-105" />
             GitHub
           </a>
           <a
             href={profile.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-foreground/30 hover:bg-secondary"
+            className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-secondary/70 active:scale-[0.98]"
           >
-            <LinkedinIcon className="h-4 w-4" />
+            <LinkedinIcon className="h-4 w-4 transition-transform duration-200 group-hover:scale-105" />
             LinkedIn
           </a>
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-foreground/30 hover:bg-secondary"
+            className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-secondary/70 active:scale-[0.98]"
           >
-            <Mail className="h-4 w-4" />
+            <Mail className="h-4 w-4 transition-transform duration-200 group-hover:scale-105" />
             Contact
           </a>
         </div>
@@ -77,10 +77,10 @@ export function Hero() {
       <Reveal delay={340}>
         <a
           href="#about"
-          className="mt-16 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+          className="group mt-16 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors duration-200 hover:text-foreground"
         >
           Explore
-          <ArrowUpRight className="h-3.5 w-3.5" />
+          <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
       </Reveal>
     </section>

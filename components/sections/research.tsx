@@ -20,12 +20,12 @@ export function Research() {
             <Reveal
               key={area.title}
               delay={i * 80}
-              className="flex flex-col rounded-xl border border-border bg-background p-6"
+              className="group flex flex-col rounded-xl border border-border bg-background p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-xs"
             >
-              <span className="font-mono text-xs text-accent">
+              <span className="font-mono text-xs text-accent transition-transform duration-200 group-hover:translate-x-0.5">
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <h3 className="mt-4 font-serif text-lg font-semibold tracking-tight">
+              <h3 className="mt-4 font-serif text-lg font-semibold tracking-tight transition-colors duration-200 group-hover:text-foreground">
                 {area.title}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">

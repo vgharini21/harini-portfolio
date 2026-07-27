@@ -17,10 +17,10 @@ export function Projects() {
               i === 0 ? 'md:col-span-2' : ''
             }
           >
-            <article className="group flex h-full flex-col justify-between rounded-2xl border border-border bg-card/80 p-7 backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.45)]">
+            <article className="group flex h-full flex-col justify-between rounded-2xl border border-border bg-card/85 p-7 backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-2.5 hover:border-accent/60 hover:shadow-[0_20px_45px_-15px_rgba(0,0,0,0.35)] dark:hover:shadow-[0_20px_45px_-15px_rgba(0,0,0,0.85)]">
               <div>
                 <div className="flex items-start justify-between gap-4">
-                  <h3 className="font-serif text-xl font-semibold tracking-tight sm:text-2xl">
+                  <h3 className="font-serif text-xl font-semibold tracking-tight transition-colors duration-200 group-hover:text-foreground sm:text-2xl">
                     {project.title}
                   </h3>
                   <div className="flex shrink-0 items-center gap-2">
@@ -30,7 +30,7 @@ export function Projects() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${project.title} on GitHub`}
-                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-secondary/70 hover:text-foreground active:scale-95"
                       >
                         <GithubIcon className="h-4 w-4" />
                       </a>
@@ -41,7 +41,7 @@ export function Projects() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${project.title} live demo`}
-                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-secondary/70 hover:text-foreground active:scale-95"
                       >
                         <ArrowUpRight className="h-4 w-4" />
                       </a>
@@ -62,7 +62,7 @@ export function Projects() {
                 {project.tech.map((t) => (
                   <li
                     key={t}
-                    className="rounded-full bg-secondary px-3 py-1 font-mono text-xs text-secondary-foreground"
+                    className="rounded-full bg-secondary px-3 py-1 font-mono text-xs text-secondary-foreground transition-colors duration-200 hover:border-accent/30 hover:bg-secondary/80"
                   >
                     {t}
                   </li>

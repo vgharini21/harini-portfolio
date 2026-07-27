@@ -135,10 +135,10 @@
 
 @utility reveal {
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(14px);
   transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @utility reveal-visible {
@@ -156,65 +156,68 @@
 
 /* Animated background */
 .bg-grid {
-  --grid-line: color-mix(in oklch, var(--foreground) 6%, transparent);
+  --grid-line: color-mix(in oklch, var(--foreground) 10%, transparent);
+  --grid-dot: color-mix(in oklch, var(--foreground) 18%, transparent);
   background-image:
+    radial-gradient(circle at 1.5px 1.5px, var(--grid-dot) 1.5px, transparent 0),
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size: 64px 64px;
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 100%);
+  background-size: 32px 32px, 64px 64px, 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 20%, black 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 95% 85% at 50% 20%, black 50%, transparent 100%);
 }
 
 .dark .bg-grid {
-  --grid-line: color-mix(in oklch, var(--foreground) 8%, transparent);
+  --grid-line: color-mix(in oklch, var(--foreground) 13%, transparent);
+  --grid-dot: color-mix(in oklch, var(--foreground) 24%, transparent);
 }
 
 .bg-orb {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.5;
+  filter: blur(75px);
+  opacity: 0.65;
   will-change: transform;
 }
 
 .dark .bg-orb {
-  opacity: 0.35;
+  opacity: 0.55;
 }
 
 .bg-orb-1 {
-  width: 42rem;
-  height: 42rem;
-  top: -12rem;
-  left: -8rem;
+  width: 44rem;
+  height: 44rem;
+  top: -10rem;
+  left: -6rem;
   background: radial-gradient(circle at center, var(--accent), transparent 70%);
-  animation: orb-drift-1 34s ease-in-out infinite alternate;
+  animation: orb-drift-1 30s ease-in-out infinite alternate;
 }
 
 .bg-orb-2 {
-  width: 34rem;
-  height: 34rem;
-  top: 20%;
-  right: -10rem;
+  width: 36rem;
+  height: 36rem;
+  top: 25%;
+  right: -8rem;
   background: radial-gradient(
     circle at center,
-    color-mix(in oklch, var(--accent) 55%, var(--muted-foreground)),
+    color-mix(in oklch, var(--accent) 70%, var(--muted-foreground)),
     transparent 70%
   );
-  animation: orb-drift-2 40s ease-in-out infinite alternate;
+  animation: orb-drift-2 36s ease-in-out infinite alternate;
 }
 
 .bg-orb-3 {
-  width: 30rem;
-  height: 30rem;
-  bottom: -10rem;
-  left: 30%;
+  width: 34rem;
+  height: 34rem;
+  bottom: -8rem;
+  left: 25%;
   background: radial-gradient(
     circle at center,
-    color-mix(in oklch, var(--foreground) 30%, transparent),
+    color-mix(in oklch, var(--accent) 40%, var(--foreground)),
     transparent 70%
   );
-  opacity: 0.25;
-  animation: orb-drift-3 46s ease-in-out infinite alternate;
+  opacity: 0.45;
+  animation: orb-drift-3 42s ease-in-out infinite alternate;
 }
 
 .bg-vignette {

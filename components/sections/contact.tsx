@@ -45,9 +45,9 @@ export function Contact() {
           </p>
           <a
             href={`mailto:${profile.email}`}
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            className="group mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all duration-200 hover:opacity-95 active:scale-[0.98]"
           >
-            <Mail className="h-4 w-4" />
+            <Mail className="h-4 w-4 transition-transform duration-200 group-hover:scale-105" />
             {profile.email}
           </a>
         </Reveal>
@@ -60,15 +60,17 @@ export function Contact() {
                   href={href}
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="group flex items-center justify-between gap-4 py-4"
+                  className="group flex items-center justify-between gap-4 py-4 transition-colors duration-200"
                 >
                   <span className="flex items-center gap-3">
-                    <Icon className="h-4 w-4 text-accent" />
-                    <span className="text-sm font-medium text-foreground">{label}</span>
+                    <Icon className="h-4 w-4 text-accent transition-transform duration-200 group-hover:scale-110" />
+                    <span className="text-sm font-medium text-foreground transition-colors duration-200 group-hover:text-accent">
+                      {label}
+                    </span>
                   </span>
-                  <span className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors group-hover:text-foreground">
+                  <span className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors duration-200 group-hover:text-foreground">
                     {value}
-                    <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
+                    <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
                   </span>
                 </a>
               </li>

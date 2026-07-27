@@ -12,10 +12,10 @@ export function Education() {
           <Reveal
             key={edu.school}
             delay={i * 80}
-            className="rounded-xl border border-border bg-card p-7"
+            className="group rounded-xl border border-border bg-card p-7 transition-all duration-300 hover:border-accent/30 hover:shadow-xs"
           >
             <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-              <h3 className="font-serif text-xl font-semibold tracking-tight">
+              <h3 className="font-serif text-xl font-semibold tracking-tight transition-colors duration-200 group-hover:text-foreground">
                 {edu.school}
               </h3>
               <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
@@ -29,7 +29,7 @@ export function Education() {
               {edu.courses.map((course) => (
                 <li
                   key={course}
-                  className="rounded-full bg-secondary px-3 py-1 text-xs text-secondary-foreground"
+                  className="rounded-full bg-secondary px-3 py-1 text-xs text-secondary-foreground transition-colors duration-200 hover:bg-secondary/80"
                 >
                   {course}
                 </li>
@@ -39,7 +39,7 @@ export function Education() {
         ))}
       </div>
 
-      <Reveal className="mt-8 rounded-xl border border-border bg-card p-7">
+      <Reveal className="group mt-8 rounded-xl border border-border bg-card p-7 transition-all duration-300 hover:border-accent/30 hover:shadow-xs">
         <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
           Certifications
         </h3>
