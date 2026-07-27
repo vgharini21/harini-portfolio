@@ -6,31 +6,45 @@ export function Experience() {
   return (
     <section
       id="experience"
-      className="scroll-mt-20 border-t border-border bg-secondary/40"
+      className="relative scroll-mt-20 border-t border-border bg-secondary/40"
     >
-      <div className="mx-auto max-w-6xl px-6 py-24 lg:px-8">
-        <SectionHeading index="02" kicker="Experience" title="Where I've built things" />
+      {/* Neutral atmosphere */}
+      <div className="section-atmosphere section-atmosphere--neutral" />
+
+      {/* Content above background atmosphere */}
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-24 lg:px-8">
+        <SectionHeading
+          index="02"
+          kicker="Experience"
+          title="Where I've built things"
+        />
+
         <ol className="flex flex-col">
           {experiences.map((exp, i) => (
             <Reveal
               as="li"
               key={exp.company}
               delay={i * 60}
-              className="group -mx-4 grid gap-x-8 gap-y-4 rounded-xl border-t border-border border-l-4 border-l-transparent px-5 py-10 transition-all duration-300 hover:border-l-accent hover:bg-card/85 hover:translate-x-1.5 hover:shadow-md"
+              className="group -mx-4 grid gap-x-8 gap-y-4 rounded-xl border-t border-border border-l-4 border-l-transparent px-5 py-10 transition-all duration-300 hover:translate-x-1.5 hover:border-l-accent hover:bg-card/85 hover:shadow-md"
             >
               <div className="flex flex-col gap-1">
                 <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   {exp.dates}
                 </p>
-                <p className="text-sm text-muted-foreground">{exp.location}</p>
+
+                <p className="text-sm text-muted-foreground">
+                  {exp.location}
+                </p>
               </div>
 
               <div>
                 <h3 className="font-serif text-xl font-semibold tracking-tight transition-colors duration-200 group-hover:text-foreground">
                   {exp.role}
                 </h3>
+
                 <p className="mt-1 text-sm font-medium text-accent">
                   {exp.company}
+
                   {exp.context ? (
                     <span className="text-muted-foreground">
                       {' '}

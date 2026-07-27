@@ -1,14 +1,17 @@
 const basePath = process.env.NODE_ENV === 'production' ? '/harini-portfolio' : ''
 
+export function assetPath(path: string) {
+  return `${basePath}${path}`
+}
+
 export const profile = {
   name: 'Harini Vinu',
   roles: ['Software Engineer', 'AI Engineer'],
   email: 'vgharini21@gmail.com',
-  phone: '+1 (929) 719-5385',
-  location: 'New York, United States',
+  location: 'Boston, United States',
   // NOTE: Update these with your exact profile URLs.
-  github: 'https://github.com/',
-  linkedin: 'https://www.linkedin.com/',
+  github: 'https://github.com/vgharini21',
+  linkedin: 'https://www.linkedin.com/in/harinivinu/',
   resume: `${basePath}/Harini_Vinu_Resume.pdf`,
   intro:
     'Software Engineer and AI Engineer focused on building reliable distributed systems, scalable backend services, and data-intensive pipelines. Graduated with an MS in Computer Science from NYU, with hands-on experience across large-scale orchestration, real-time streaming, and machine learning.',
@@ -101,7 +104,7 @@ export const projects: Project[] = [
     summary:
       'Serverless conversational chatbot delivering real-time restaurant recommendations. Built with AWS (S3, API Gateway, Lambda, Lex, DynamoDB, Elasticsearch) integrated with the Yelp API. Orchestrated asynchronous workflows with SQS, automated personalized alerts via SES, and used CloudWatch for monitoring, logging, and event-driven scheduling.',
     tech: ['AWS Lambda', 'API Gateway', 'DynamoDB', 'Lex', 'Elasticsearch', 'SQS', 'SES'],
-    github: 'https://github.com/',
+    github: 'https://github.com/vgharini21/DiningConciergeChatbot',
   },
   {
     title: 'Real-Time Stock Market Analysis System',
@@ -109,7 +112,7 @@ export const projects: Project[] = [
     summary:
       'Distributed streaming analytics platform processing live financial data feeds with Kafka, Spark Streaming, and Hadoop. Built backend services for computing technical indicators and storing high-volume time-series data in PostgreSQL and InfluxDB for low-latency analytics, with Grafana dashboards for performance monitoring and visualization.',
     tech: ['Kafka', 'Spark Streaming', 'Hadoop', 'PostgreSQL', 'InfluxDB', 'Grafana'],
-    github: 'https://github.com/',
+    github: 'https://github.com/vgharini21/BdProject_TradeJoe',
   },
   {
     title: 'Real-Time Video Monitoring & Alert System',
@@ -117,7 +120,7 @@ export const projects: Project[] = [
     summary:
       'Scalable real-time monitoring system using AWS Kinesis, Lambda, SQS, DynamoDB, and Rekognition to process live data streams and perform image analysis with millisecond-level alerting. Implemented analytics pipelines with Elasticsearch and AWS QuickSight to surface operational insights from streaming event data.',
     tech: ['AWS Kinesis', 'Lambda', 'DynamoDB', 'Rekognition', 'Elasticsearch', 'QuickSight'],
-    github: 'https://github.com/',
+    github: 'https://github.com/BhuOne02/projectKoala',
   },
 ]
 

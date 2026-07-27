@@ -3,28 +3,52 @@
 import { useEffect, useState } from 'react'
 
 const particles = [
-  { char: '✦', top: '15%', left: '12%', delay: '0s', class: 'animate-particle-slow' },
-  { char: '+', top: '28%', left: '85%', delay: '3s', class: 'animate-particle-reverse' },
-  { char: '×', top: '45%', left: '8%', delay: '6s', class: 'animate-particle-slow' },
-  { char: '✦', top: '62%', left: '90%', delay: '2s', class: 'animate-particle-reverse' },
-  { char: '+', top: '75%', left: '18%', delay: '4s', class: 'animate-particle-slow' },
-  { char: '•', top: '88%', left: '82%', delay: '1s', class: 'animate-particle-reverse' },
+  { char: '✦', top: '18%', left: '14%', delay: '0s', class: 'animate-particle-slow' },
+  { char: '+', top: '52%', left: '88%', delay: '4s', class: 'animate-particle-reverse' },
+  { char: '×', top: '78%', left: '22%', delay: '8s', class: 'animate-particle-slow' },
+  { char: '•', top: '34%', left: '72%', delay: '2s', class: 'animate-particle-reverse' },
+]
+
+const signalPaths = [
+  'M 120 180 Q 280 120 440 200',
+  'M 80 420 Q 240 360 400 440',
+  'M 600 280 Q 720 220 880 300',
+]
+
+const nodes = [
+  { cx: 120, cy: 180 },
+  { cx: 440, cy: 200 },
+  { cx: 80, cy: 420 },
+  { cx: 400, cy: 440 },
+  { cx: 600, cy: 280 },
+  { cx: 880, cy: 300 },
 ]
 
 export function AnimatedBackground() {
   const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 })
+  const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setMousePos({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
     }
 
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(media.matches)
+    const onMotionChange = () => setReducedMotion(media.matches)
+    media.addEventListener('change', onMotionChange)
+
     const handlePointerMove = (e: PointerEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY })
+      if (!media.matches) {
+        setMousePos({ x: e.clientX, y: e.clientY })
+      }
     }
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
-    return () => window.removeEventListener('pointermove', handlePointerMove)
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      media.removeEventListener('change', onMotionChange)
+    }
   }, [])
 
   return (
@@ -32,31 +56,66 @@ export function AnimatedBackground() {
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
+      {/* Animated gradient mesh */}
+      <div className="bg-mesh absolute inset-0" />
+
       {/* Technical grid */}
       <div className="bg-grid absolute inset-0" />
 
-      {/* Refined subtle cursor spotlight glow */}
-      <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-200"
-        style={{
-          background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, var(--accent) 0%, transparent 70%)`,
-          opacity: 0.28,
-        }}
-      />
+      {/* Subtle cursor spotlight */}
+      {!reducedMotion && (
+        <div
+          className="absolute inset-0 transition-opacity duration-300"
+          style={{
+            background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, color-mix(in oklch, var(--accent) 18%, transparent) 0%, transparent 70%)`,
+            opacity: 0.30,
+          }}
+        />
+      )}
 
-      {/* Ambient drifting glow orbs (Primary warm accent + Secondary cool cyan) */}
+      {/* Ambient drifting glow orbs */}
       <div className="bg-orb bg-orb-1" />
       <div className="bg-orb bg-orb-2" />
       <div className="bg-orb bg-orb-cyan" />
       <div className="bg-orb bg-orb-3" />
 
-      {/* Low-opacity technical floating micro-particles */}
-      <div className="absolute inset-0 pointer-events-none select-none">
+      {/* Faint node / signal-line network */}
+      <svg
+        className="absolute inset-0 h-full w-full text-muted-foreground/20"
+        viewBox="0 0 1000 800"
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+      >
+        {signalPaths.map((d, i) => (
+          <path
+            key={d}
+            d={d}
+            stroke="currentColor"
+            strokeWidth="1"
+            className="signal-line"
+            style={{ animationDelay: `${i * 4}s` }}
+          />
+        ))}
+        {nodes.map((node, i) => (
+          <circle
+            key={`${node.cx}-${node.cy}`}
+            cx={node.cx}
+            cy={node.cy}
+            r="2.5"
+            fill="currentColor"
+            className="signal-node"
+            style={{ animationDelay: `${i * 1.5}s` }}
+          />
+        ))}
+      </svg>
+
+      {/* Low-opacity drifting technical symbols */}
+      <div className="absolute inset-0 select-none">
         {particles.map((p, i) => (
           <span
             key={i}
             style={{ top: p.top, left: p.left, animationDelay: p.delay }}
-            className={`absolute font-mono text-[11px] text-muted-foreground/30 ${p.class}`}
+            className={`absolute font-mono text-[10px] text-accent/30 ${p.class}`}
           >
             {p.char}
           </span>

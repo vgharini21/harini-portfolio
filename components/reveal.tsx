@@ -20,6 +20,13 @@ export function Reveal({
   useEffect(() => {
     const node = ref.current
     if (!node) return
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion) {
+      setVisible(true)
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -27,17 +34,18 @@ export function Reveal({
           observer.disconnect()
         }
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+      { threshold: 0.1, rootMargin: '0px 0px -32px 0px' },
     )
     observer.observe(node)
     return () => observer.disconnect()
   }, [])
 
-  const Component = Tag as any
+  const Component = Tag as 'div'
 
   return (
     <Component
-      ref={ref}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ref={ref as any}
       style={{ transitionDelay: `${delay}ms` }}
       className={cn('reveal', visible && 'reveal-visible', className)}
     >

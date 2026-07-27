@@ -98,7 +98,7 @@
   --secondary: oklch(0.25 0.005 60);
   --secondary-foreground: oklch(0.93 0.004 80);
   --muted: oklch(0.25 0.005 60);
-  --muted-foreground: oklch(0.66 0.008 70);
+  --muted-foreground: oklch(0.73 0.008 70);
   --accent: oklch(0.70 0.14 40);
   --accent-secondary: oklch(0.65 0.12 220);
   --accent-foreground: oklch(0.16 0.004 60);
@@ -184,10 +184,10 @@
 
 @utility reveal {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(18px);
   transition:
-    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @utility reveal-visible {
@@ -200,6 +200,50 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .motion-reduce\:transform-none {
+    transform: none !important;
+  }
+
+  .motion-reduce\:hover\:translate-y-0:hover {
+    transform: none !important;
+  }
+}
+
+/* Animated gradient mesh */
+.bg-mesh {
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 15% 10%,
+      color-mix(in oklch, var(--accent) 22%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 70% 55% at 85% 20%,
+      color-mix(in oklch, var(--accent-secondary) 7%, transparent),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 65% 50% at 50% 85%,
+      color-mix(in oklch, var(--accent) 12%, transparent),
+      transparent 55%
+    );
+  animation: mesh-shift 48s ease-in-out infinite alternate;
+}
+
+@keyframes mesh-shift {
+  0% {
+    filter: hue-rotate(0deg) saturate(1);
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    filter: hue-rotate(4deg) saturate(1.05);
+    transform: scale(1.03) translate3d(1%, -0.5%, 0);
+  }
+  100% {
+    filter: hue-rotate(-3deg) saturate(1.02);
+    transform: scale(1.01) translate3d(-0.5%, 1%, 0);
   }
 }
 
@@ -245,36 +289,38 @@
 .bg-orb-2 {
   width: 36rem;
   height: 36rem;
-  top: 25%;
-  right: -8rem;
+  top: 22%;
+  right: -6rem;
   background: radial-gradient(
     circle at center,
-    color-mix(in oklch, var(--accent) 60%, var(--muted-foreground)),
+    color-mix(in oklch, var(--accent) 70%, var(--muted-foreground)),
     transparent 70%
   );
   animation: orb-drift-2 36s ease-in-out infinite alternate;
 }
 
-/* Secondary ambient glow using --accent-secondary for dual-tone theme depth */
+/* Secondary ambient glow — reduced intensity so copper dominates near hero portrait */
 .bg-orb-cyan {
-  width: 38rem;
-  height: 38rem;
-  top: 35%;
-  right: -10rem;
+  width: 34rem;
+  height: 34rem;
+  top: 38%;
+  right: -12rem;
   background: radial-gradient(
     circle at center,
-    color-mix(in oklch, var(--accent-secondary) 75%, transparent),
+    color-mix(in oklch, var(--accent-secondary) 22%, transparent),
     transparent 70%
   );
+  opacity: 0.35;
   animation: orb-drift-2 42s ease-in-out infinite alternate;
 }
 
 .dark .bg-orb-cyan {
   background: radial-gradient(
     circle at center,
-    oklch(0.65 0.12 220 / 0.25),
+    oklch(0.65 0.12 220 / 0.12),
     transparent 70%
   );
+  opacity: 0.28;
 }
 
 .bg-orb-3 {
@@ -358,7 +404,92 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-orb {
+  .bg-orb,
+  .bg-mesh,
+  .animate-particle-slow,
+  .animate-particle-reverse,
+  .signal-line,
+  .signal-node {
     animation: none !important;
   }
+}
+
+/* Signal network pulse */
+@keyframes signal-pulse {
+  0%, 100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
+
+@keyframes signal-draw {
+  0%, 100% {
+    stroke-dashoffset: 0;
+    opacity: 0.1;
+  }
+  50% {
+    stroke-dashoffset: -24;
+    opacity: 0.22;
+  }
+}
+
+.signal-line {
+  stroke-dasharray: 6 10;
+  animation: signal-draw 36s ease-in-out infinite;
+}
+
+.signal-node {
+  animation: signal-pulse 24s ease-in-out infinite;
+}
+
+/* Section-specific atmosphere */
+.section-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.section-atmosphere::before {
+  content: "";
+  position: absolute;
+  width: 42rem;
+  height: 42rem;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.22;
+}
+
+.section-atmosphere--warm::before {
+  left: -12rem;
+  top: 10%;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklch, var(--accent) 70%, transparent),
+    transparent 70%
+  );
+}
+
+.section-atmosphere--cool::before {
+  right: -14rem;
+  top: 15%;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklch, var(--accent-secondary) 28%, transparent),
+    transparent 72%
+  );
+}
+
+.section-atmosphere--neutral::before {
+  left: 35%;
+  top: 20%;
+  opacity: 0.12;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklch, var(--muted-foreground) 25%, transparent),
+    transparent 72%
+  );
 }
