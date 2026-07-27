@@ -1,3 +1,5 @@
+const basePath = process.env.NODE_ENV === 'production' ? '/harini-portfolio' : ''
+
 export const profile = {
   name: 'Harini Vinu',
   roles: ['Software Engineer', 'AI Engineer'],
@@ -7,7 +9,7 @@ export const profile = {
   // NOTE: Update these with your exact profile URLs.
   github: 'https://github.com/',
   linkedin: 'https://www.linkedin.com/',
-  resume: '/Harini_Vinu_Resume.pdf',
+  resume: `${basePath}/Harini_Vinu_Resume.pdf`,
   intro:
     'Software Engineer and AI Engineer focused on building reliable distributed systems, scalable backend services, and data-intensive pipelines. Graduated with an MS in Computer Science from NYU, with hands-on experience across large-scale orchestration, real-time streaming, and machine learning.',
 }
