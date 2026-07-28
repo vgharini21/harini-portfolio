@@ -13,7 +13,10 @@ export function Hero() {
         <div className="flex min-w-0 flex-col justify-center">
           <Reveal>
             <p className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              <span className="text-accent text-[10px] select-none" aria-hidden>
+              <span
+                className="hero-star text-accent text-[10px] select-none"
+                aria-hidden
+              >
                 ✦
               </span>
               {profile.location}

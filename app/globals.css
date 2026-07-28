@@ -182,32 +182,29 @@
   }
 }
 
-@utility reveal {
+.reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(32px);
+  filter: blur(5px);
   transition:
-    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 850ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 850ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 850ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@utility reveal-visible {
+.reveal-visible {
   opacity: 1;
-  transform: none;
+  transform: translateY(0);
+  filter: blur(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .reveal,
+  .reveal-visible {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
-  }
-
-  .motion-reduce\:transform-none {
-    transform: none !important;
-  }
-
-  .motion-reduce\:hover\:translate-y-0:hover {
-    transform: none !important;
   }
 }
 
@@ -297,6 +294,74 @@
     transparent 70%
   );
   animation: orb-drift-2 36s ease-in-out infinite alternate;
+}
+
+@keyframes portrait-enter {
+  from {
+    opacity: 0;
+    transform: translateX(40px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.portrait-enter {
+  animation: portrait-enter 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait-enter {
+    animation: none;
+  }
+}
+
+/* Gentle continuous motion for hero portrait */
+@keyframes portrait-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.portrait-float {
+  animation: portrait-float 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait-float {
+    animation: none;
+  }
+}
+
+@keyframes hero-star-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+.hero-star {
+  display: inline-block;
+  animation: hero-star-pulse 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-star {
+    animation: none;
+  }
 }
 
 /* Secondary ambient glow — reduced intensity so copper dominates near hero portrait */
@@ -492,4 +557,937 @@
     color-mix(in oklch, var(--muted-foreground) 25%, transparent),
     transparent 72%
   );
+}
+
+/* ==================================================
+   Interactive Portfolio Companion
+================================================== */
+
+.engineering-companion {
+  --eye-x: 0px;
+  --eye-y: 0px;
+  --facing: 1;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 96px;
+  height: 96px;
+
+  z-index: 70;
+
+  transition:
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  will-change: transform;
+}
+
+.engineering-companion__button {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.engineering-companion__float {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  transform: scaleX(var(--facing));
+
+  animation: buddy-idle 4s ease-in-out infinite;
+
+  filter:
+    drop-shadow(0 10px 14px rgba(0, 0, 0, 0.22))
+    drop-shadow(
+      0 0 8px
+      color-mix(in oklch, var(--accent) 14%, transparent)
+    );
+}
+
+.engineering-companion__svg {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+}
+
+.engineering-companion__eye {
+  transform-box: fill-box;
+  transform-origin: center;
+
+  transition: transform 120ms ease;
+}
+
+.engineering-companion__pupil {
+  transform:
+    translate(
+      var(--eye-x),
+      var(--eye-y)
+    );
+
+  transition: transform 80ms linear;
+}
+
+.engineering-companion--blinking
+.engineering-companion__eye {
+  transform: scaleY(0.12);
+}
+
+.engineering-companion--happy
+.engineering-companion__eye {
+  transform: scaleY(0.18);
+}
+
+.engineering-companion--happy
+.engineering-companion__pupil {
+  opacity: 0;
+}
+
+.engineering-companion__smile {
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+
+.engineering-companion--happy
+.engineering-companion__smile {
+  transform-box: fill-box;
+  transform-origin: center;
+
+  transform: scaleX(1.35) translateY(-1px);
+}
+
+.engineering-companion__core {
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation: buddy-core 2.3s ease-in-out infinite;
+}
+
+.engineering-companion--happy
+.engineering-companion__core {
+  animation:
+    buddy-happy-core 450ms ease-in-out infinite alternate;
+}
+
+.engineering-companion__belly-zone {
+  position: absolute;
+
+  left: 36%;
+  top: 62%;
+
+  width: 30%;
+  height: 30%;
+
+  border-radius: 999px;
+
+  cursor: grab;
+}
+
+.engineering-companion__antenna {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+
+  animation: buddy-antenna 3.5s ease-in-out infinite;
+}
+
+.engineering-companion__happy-particles {
+  pointer-events: none;
+
+  position: absolute;
+  inset: 0;
+
+  opacity: 0;
+}
+
+.engineering-companion__happy-particles span {
+  position: absolute;
+
+  color: var(--accent);
+
+  font-size: 11px;
+
+  opacity: 0;
+}
+
+.engineering-companion__happy-particles span:nth-child(1) {
+  top: 22%;
+  left: 16%;
+}
+
+.engineering-companion__happy-particles span:nth-child(2) {
+  top: 13%;
+  right: 15%;
+}
+
+.engineering-companion__happy-particles span:nth-child(3) {
+  top: 28%;
+  right: 3%;
+}
+
+.engineering-companion--happy
+.engineering-companion__happy-particles {
+  opacity: 1;
+}
+
+.engineering-companion--happy
+.engineering-companion__happy-particles span {
+  animation: buddy-love-particle 900ms ease-out infinite;
+}
+
+.engineering-companion--happy
+.engineering-companion__happy-particles span:nth-child(2) {
+  animation-delay: 180ms;
+}
+
+.engineering-companion--happy
+.engineering-companion__happy-particles span:nth-child(3) {
+  animation-delay: 350ms;
+}
+
+.engineering-companion--happy
+.engineering-companion__float {
+  animation:
+    buddy-happy-wiggle 420ms ease-in-out infinite alternate;
+}
+
+.engineering-companion--moving
+.engineering-companion__float {
+  animation:
+    buddy-scoot 360ms ease-in-out infinite alternate;
+}
+
+.engineering-companion--playing
+.engineering-companion__float {
+  animation:
+    buddy-hop 720ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.engineering-companion--playing
+.engineering-companion__wave-arm {
+  transform-box: fill-box;
+  transform-origin: left center;
+
+  animation: buddy-wave 500ms ease-in-out;
+}
+
+/* Entrance */
+
+.engineering-companion--arriving {
+  animation:
+    buddy-arrive 2200ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+.engineering-companion--arriving
+.engineering-companion__float {
+  animation: none;
+}
+
+/* ==================================================
+   Assistant panel
+================================================== */
+
+.companion-panel {
+  position: fixed;
+
+  right: 28px;
+  bottom: 138px;
+
+  z-index: 90;
+
+  width: min(360px, calc(100vw - 40px));
+  max-height: min(620px, calc(100vh - 180px));
+
+  overflow-y: auto;
+
+  padding: 20px;
+
+  border:
+    1px solid
+    color-mix(
+      in oklch,
+      var(--accent) 30%,
+      var(--border)
+    );
+
+  border-radius: 20px;
+
+  background:
+    color-mix(
+      in oklch,
+      var(--background) 96%,
+      transparent
+    );
+
+  backdrop-filter: blur(22px);
+
+  box-shadow:
+    0 24px 70px -28px rgba(0, 0, 0, 0.7),
+    0 0 35px
+      color-mix(
+        in oklch,
+        var(--accent) 10%,
+        transparent
+      );
+
+  animation:
+    companion-panel-enter 260ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.companion-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 16px;
+}
+
+.companion-panel__eyebrow {
+  margin-bottom: 4px;
+
+  font-family: var(--font-mono);
+
+  font-size: 10px;
+
+  letter-spacing: 0.18em;
+
+  color: var(--accent);
+}
+
+.companion-panel__header h2 {
+  font-family: var(--font-serif);
+
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.companion-panel__close {
+  padding: 2px 4px;
+
+  border: 0;
+  background: transparent;
+
+  color: var(--muted-foreground);
+
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.companion-panel__intro {
+  margin-top: 10px;
+
+  color: var(--muted-foreground);
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.companion-panel__actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 8px;
+
+  margin-top: 16px;
+}
+
+.companion-panel__actions button {
+  padding: 9px 10px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--secondary);
+
+  color: var(--foreground);
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.companion-panel__actions button:hover {
+  transform: translateY(-1px);
+
+  border-color:
+    color-mix(
+      in oklch,
+      var(--accent) 40%,
+      var(--border)
+    );
+
+  background:
+    color-mix(
+      in oklch,
+      var(--accent) 7%,
+      var(--secondary)
+    );
+}
+
+.companion-panel__answer {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  margin-top: 16px;
+  padding: 12px;
+
+  border:
+    1px solid
+    color-mix(
+      in oklch,
+      var(--accent) 18%,
+      var(--border)
+    );
+
+  border-radius: 12px;
+
+  background:
+    color-mix(
+      in oklch,
+      var(--accent) 5%,
+      var(--background)
+    );
+}
+
+.companion-panel__answer p {
+  color: var(--muted-foreground);
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.companion-panel__answer-dot {
+  width: 6px;
+  height: 6px;
+
+  margin-top: 6px;
+
+  flex-shrink: 0;
+
+  border-radius: 999px;
+
+  background: var(--accent);
+
+  box-shadow:
+    0 0 8px
+    color-mix(
+      in oklch,
+      var(--accent) 60%,
+      transparent
+    );
+}
+
+.companion-panel__question {
+  display: grid;
+
+  gap: 8px;
+
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top: 1px solid var(--border);
+}
+
+.companion-panel__question label {
+  font-family: var(--font-mono);
+
+  font-size: 10px;
+
+  letter-spacing: 0.13em;
+
+  text-transform: uppercase;
+
+  color: var(--muted-foreground);
+}
+
+.companion-panel__question input {
+  width: 100%;
+
+  padding: 10px 11px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--background);
+
+  color: var(--foreground);
+
+  font-size: 13px;
+
+  outline: none;
+}
+
+.companion-panel__question input:focus {
+  border-color:
+    color-mix(
+      in oklch,
+      var(--accent) 55%,
+      var(--border)
+    );
+}
+
+.companion-panel__question button,
+.companion-panel__note button {
+  justify-self: start;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--accent);
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.companion-panel__note {
+  margin-top: 16px;
+  padding-top: 14px;
+
+  border-top: 1px solid var(--border);
+}
+
+.companion-panel__note p {
+  margin-bottom: 5px;
+
+  color: var(--muted-foreground);
+
+  font-size: 12px;
+}
+
+/* ==================================================
+   Animations
+================================================== */
+
+@keyframes buddy-arrive {
+  0% {
+    opacity: 0;
+
+    translate: 260px -180px;
+    rotate: -16deg;
+    scale: 0.72;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  38% {
+    translate: -220px -115px;
+    rotate: 11deg;
+    scale: 0.9;
+  }
+
+  62% {
+    translate: -105px -48px;
+    rotate: -7deg;
+    scale: 1.01;
+  }
+
+  80% {
+    translate: -24px -12px;
+    rotate: 4deg;
+    scale: 1.04;
+  }
+
+  91% {
+    translate: 0 -8px;
+    rotate: -2deg;
+    scale: 1.02;
+  }
+
+  100% {
+    opacity: 1;
+
+    translate: 0 0;
+    rotate: 0deg;
+    scale: 1;
+  }
+}
+
+@keyframes buddy-idle {
+  0%,
+  100% {
+    transform:
+      scaleX(var(--facing))
+      translateY(0)
+      rotate(-1deg);
+  }
+
+  50% {
+    transform:
+      scaleX(var(--facing))
+      translateY(-5px)
+      rotate(1deg);
+  }
+}
+
+@keyframes buddy-core {
+  0%,
+  100% {
+    opacity: 0.7;
+
+    transform: scale(0.92);
+  }
+
+  50% {
+    opacity: 1;
+
+    transform: scale(1.08);
+  }
+}
+
+@keyframes buddy-happy-core {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.28);
+  }
+}
+
+@keyframes buddy-antenna {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes buddy-scoot {
+  from {
+    transform:
+      scaleX(var(--facing))
+      translateY(2px)
+      rotate(-3deg)
+      scale(0.97);
+  }
+
+  to {
+    transform:
+      scaleX(var(--facing))
+      translateY(-10px)
+      rotate(3deg)
+      scale(1.02);
+  }
+}
+
+@keyframes buddy-hop {
+  0% {
+    transform:
+      scaleX(var(--facing))
+      translateY(0)
+      rotate(0deg)
+      scale(1);
+  }
+
+  32% {
+    transform:
+      scaleX(var(--facing))
+      translateY(-30px)
+      rotate(-7deg)
+      scale(1.07);
+  }
+
+  63% {
+    transform:
+      scaleX(var(--facing))
+      translateY(-8px)
+      rotate(5deg)
+      scale(1.03);
+  }
+
+  100% {
+    transform:
+      scaleX(var(--facing))
+      translateY(0)
+      rotate(0deg)
+      scale(1);
+  }
+}
+
+@keyframes buddy-wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  30% {
+    transform: rotate(-25deg);
+  }
+
+  60% {
+    transform: rotate(18deg);
+  }
+
+  80% {
+    transform: rotate(-12deg);
+  }
+}
+
+@keyframes buddy-happy-wiggle {
+  from {
+    transform:
+      scaleX(var(--facing))
+      rotate(-4deg)
+      translateY(-2px)
+      scale(1.03);
+  }
+
+  to {
+    transform:
+      scaleX(var(--facing))
+      rotate(4deg)
+      translateY(-5px)
+      scale(1.06);
+  }
+}
+
+@keyframes buddy-love-particle {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(8px)
+      scale(0.6);
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateY(-16px)
+      scale(1.15);
+  }
+}
+
+@keyframes companion-panel-enter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(8px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 640px) {
+  .engineering-companion {
+    width: 72px;
+    height: 72px;
+  }
+
+  .companion-panel {
+    left: 16px;
+    right: 16px;
+    bottom: 105px;
+
+    width: auto;
+
+    max-height: calc(100vh - 140px);
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .engineering-companion {
+    transition: none;
+  }
+
+  .engineering-companion--arriving {
+    animation: none;
+  }
+
+  .engineering-companion__float,
+  .engineering-companion__core,
+  .engineering-companion__antenna,
+  .engineering-companion__happy-particles span {
+    animation: none;
+  }
+
+  .engineering-companion__pupil {
+    transition: none;
+  }
+
+  .companion-panel {
+    animation: none;
+  }
+}
+
+.companion-belly-toast {
+  position: fixed;
+  right: 30px;
+  bottom: 145px;
+  z-index: 200;
+
+  padding: 9px 14px;
+
+  border: 1px solid
+    color-mix(in oklch, var(--accent) 45%, var(--border));
+
+  border-radius: 999px;
+
+  background: var(--background);
+  color: var(--foreground);
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.35),
+    0 0 16px
+      color-mix(in oklch, var(--accent) 20%, transparent);
+
+  animation: belly-toast-pop 2.2s ease forwards;
+}
+
+@keyframes belly-toast-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  75% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+  }
+}
+
+/* Belly rub reaction — keep this AFTER other companion animations */
+
+.engineering-companion--belly-rubbed
+.engineering-companion__float {
+  animation: buddy-belly-rub 280ms ease-in-out infinite alternate !important;
+}
+
+.engineering-companion--belly-rubbed
+.engineering-companion__eye {
+  transform: scaleY(0.16) !important;
+}
+
+.engineering-companion--belly-rubbed
+.engineering-companion__pupil {
+  opacity: 0 !important;
+}
+
+.engineering-companion--belly-rubbed
+.engineering-companion__core {
+  animation: buddy-belly-core 220ms ease-in-out infinite alternate !important;
+}
+
+.engineering-companion--belly-rubbed
+.engineering-companion__antenna {
+  animation: buddy-belly-antenna 180ms ease-in-out infinite alternate !important;
+}
+
+.engineering-companion--belly-rubbed
+.engineering-companion__smile {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scaleX(1.5) translateY(-1px) !important;
+  opacity: 1;
+}
+
+@keyframes buddy-belly-rub {
+  from {
+    transform:
+      scaleX(var(--facing))
+      translateY(-2px)
+      rotate(-5deg)
+      scale(1.03);
+  }
+
+  to {
+    transform:
+      scaleX(var(--facing))
+      translateY(-7px)
+      rotate(5deg)
+      scale(1.08);
+  }
+}
+
+@keyframes buddy-belly-core {
+  from {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+
+  to {
+    transform: scale(1.45);
+    opacity: 1;
+  }
+}
+
+@keyframes buddy-belly-antenna {
+  from {
+    transform: rotate(-8deg);
+  }
+
+  to {
+    transform: rotate(8deg);
+  }
 }
