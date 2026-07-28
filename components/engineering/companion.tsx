@@ -66,44 +66,39 @@ export function EngineeringCompanion() {
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-
+  
     setReducedMotion(media.matches)
-
+  
     const landing = clampPosition(
       window.innerWidth - COMPANION_SIZE - 36,
       window.innerHeight - COMPANION_SIZE - 36,
     )
-
+  
     setPosition(landing)
-    setReady(true)
-
+  
     let arrivalTimer: number | undefined
-
-    if (media.matches) {
-      setArriving(false)
-    } else {
-        arrivalTimer = window.setTimeout(() => {
-            setArriving(false)
-            setShowHint(true)
-          }, 2200)
-    }
-
-    const handleMotionChange = () => {
-      setReducedMotion(media.matches)
-
-    //   if (media.matches) {
-    //     setArriving(false)
-    //   }
-    window.setTimeout(() => {
+  
+    const startArrival = () => {
+      setReady(true)
+  
+      if (media.matches) {
         setArriving(false)
-        setShowHint(true)
-      
-        window.setTimeout(() => {
-          setShowHint(false)
-        }, 4000)
-      }, 2400)
+        return
+      }
+  
+      setArriving(true)
+  
+      arrivalTimer = window.setTimeout(() => {
+        setArriving(false)
+      }, 2200)
     }
-
+  
+    window.addEventListener(
+      'portfolio-boot-complete',
+      startArrival,
+      { once: true },
+    )
+  
     const handleResize = () => {
       setPosition(
         clampPosition(
@@ -112,17 +107,33 @@ export function EngineeringCompanion() {
         ),
       )
     }
-
+  
+    const handleMotionChange = () => {
+      setReducedMotion(media.matches)
+    }
+  
     media.addEventListener('change', handleMotionChange)
     window.addEventListener('resize', handleResize)
-
+  
     return () => {
       if (arrivalTimer) {
         window.clearTimeout(arrivalTimer)
       }
-
-      media.removeEventListener('change', handleMotionChange)
-      window.removeEventListener('resize', handleResize)
+  
+      window.removeEventListener(
+        'portfolio-boot-complete',
+        startArrival,
+      )
+  
+      media.removeEventListener(
+        'change',
+        handleMotionChange,
+      )
+  
+      window.removeEventListener(
+        'resize',
+        handleResize,
+      )
     }
   }, [clampPosition])
 

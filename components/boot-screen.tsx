@@ -8,10 +8,11 @@ export function BootScreen() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    // const hasBooted = sessionStorage.getItem(BOOT_KEY)
+    // Keep this while testing
     const hasBooted = null
 
     if (hasBooted) {
+      window.dispatchEvent(new Event('portfolio-boot-complete'))
       return
     }
 
@@ -20,6 +21,8 @@ export function BootScreen() {
     const timer = window.setTimeout(() => {
       setVisible(false)
       sessionStorage.setItem(BOOT_KEY, 'true')
+
+      window.dispatchEvent(new Event('portfolio-boot-complete'))
     }, 2500)
 
     return () => window.clearTimeout(timer)
@@ -30,8 +33,6 @@ export function BootScreen() {
   return (
     <div className="boot-screen">
       <div className="boot-screen__content">
-
-        {/* HV-01 */}
         <div className="boot-screen__robot">
           <div className="boot-screen__face">
             <span className="boot-screen__eye" />
@@ -59,7 +60,6 @@ export function BootScreen() {
         <p className="boot-screen__online">
           System online <span aria-hidden>✦</span>
         </p>
-
       </div>
     </div>
   )
