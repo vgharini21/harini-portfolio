@@ -55,7 +55,7 @@ export function About() {
                   Education
                 </dt>
                 <dd className="mt-2 text-sm text-foreground">
-                  MS CS, NYU
+                  MS Computer Science @ NYU
                 </dd>
               </div>
 

@@ -30,6 +30,12 @@ export function EngineeringCompanion() {
   const [panelOpen, setPanelOpen] = useState(false)
   const [bellyMessage, setBellyMessage] = useState('')
   const [bellyRub, setBellyRub] = useState(false)
+  const [showHint, setShowHint] = useState(false)
+  const [panelView, setPanelView] = useState<'ask' | 'note'>('ask')
+  const [noteSending, setNoteSending] = useState(false)
+  const [noteSent, setNoteSent] = useState(false)
+  const [noteError, setNoteError] = useState('')
+
 
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState(
@@ -76,17 +82,26 @@ export function EngineeringCompanion() {
     if (media.matches) {
       setArriving(false)
     } else {
-      arrivalTimer = window.setTimeout(() => {
-        setArriving(false)
-      }, 2200)
+        arrivalTimer = window.setTimeout(() => {
+            setArriving(false)
+            setShowHint(true)
+          }, 2200)
     }
 
     const handleMotionChange = () => {
       setReducedMotion(media.matches)
 
-      if (media.matches) {
+    //   if (media.matches) {
+    //     setArriving(false)
+    //   }
+    window.setTimeout(() => {
         setArriving(false)
-      }
+        setShowHint(true)
+      
+        window.setTimeout(() => {
+          setShowHint(false)
+        }, 4000)
+      }, 2400)
     }
 
     const handleResize = () => {
@@ -227,130 +242,283 @@ export function EngineeringCompanion() {
 
   const handleQuestion = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
-    const text = question.trim().toLowerCase()
-
+    const submittedQuestion = question.trim()
+    const text = submittedQuestion.toLowerCase()
+  
     if (!text) {
       setAnswer('Ask me something about Harini first!')
+
+      setQuestion('')
       return
     }
-
+  
+    // Programming languages
     if (
-      text.includes('experience') ||
-      text.includes('work') ||
-      text.includes('job')
+      text.includes('programming language') ||
+      text.includes('languages does') ||
+      text.includes('languages know') ||
+      text.includes('what languages') ||
+      text.includes('coding language')
     ) {
       setAnswer(
-        'Harini has worked on backend systems, distributed infrastructure, AI-driven systems, real-time streaming pipelines, and cloud applications.',
+        'Harini works with Python, Java, Kotlin, Go, JavaScript, and other languages. She has used them across backend systems, cloud infrastructure, distributed applications, and AI/ML projects.',
       )
+
+      setQuestion('')
+
       return
     }
-
+  
+    // Backend experience
+    if (
+      text.includes('backend') ||
+      text.includes('back-end') ||
+      text.includes('backend experience')
+    ) {
+      setAnswer(
+        'Harini has hands-on backend experience building REST APIs, microservices, distributed pipelines, cloud services, and event-driven systems. She has worked with technologies including Python, Java, Kotlin, AWS, Kafka, Redis, MongoDB, PostgreSQL, and DynamoDB.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // AWS-specific experience
+    if (
+      text.includes('aws') ||
+      text.includes('amazon web services') ||
+      text.includes('cloud experience')
+    ) {
+      setAnswer(
+        'Harini has extensive AWS experience building serverless and distributed systems using services such as Lambda, S3, SQS, DynamoDB, Step Functions, EventBridge, CloudWatch, API Gateway, and other AWS infrastructure.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // AI / ML experience
+    if (
+      text.includes('machine learning') ||
+      text.includes(' ml ') ||
+      text.startsWith('ml ') ||
+      text.includes('ml experience') ||
+      text.includes('ai experience') ||
+      text.includes('artificial intelligence') ||
+      text.includes('llm') ||
+      text.includes('rag')
+    ) {
+      setAnswer(
+        'Harini has experience with machine learning, deep learning, LLMs, RAG systems, embeddings, and AI-driven applications. Her work combines AI with backend and cloud engineering to build practical intelligent systems.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // Relocation
+    if (
+      text.includes('relocat') ||
+      text.includes('move for') ||
+      text.includes('other location') ||
+      text.includes('other cities')
+    ) {
+      setAnswer(
+        'Yes! Harini is open to relocation for the right Software Engineering or AI Engineering opportunity.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // Best / featured project
+    if (
+      text.includes('best project') ||
+      text.includes('favorite project') ||
+      text.includes('featured project') ||
+      text.includes('most interesting project') ||
+      text.includes('strongest project')
+    ) {
+      setAnswer(
+        'One project worth checking out is Harini’s real-time stock market analysis system, where she worked with distributed data processing and streaming technologies. You can find it along with her other work in the Projects section.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // General projects
     if (
       text.includes('project') ||
       text.includes('built') ||
-      text.includes('build')
+      text.includes('build') ||
+      text.includes('portfolio')
     ) {
       setAnswer(
-        'Her featured projects include a serverless dining concierge chatbot, a real-time stock market analysis system, and a real-time video monitoring and alert system.',
+        'Harini’s featured projects include a serverless dining concierge chatbot, a real-time stock market analysis system, and a real-time video monitoring and alert system.',
       )
+      setQuestion('')
       return
     }
-
-    if (
-      text.includes('skill') ||
-      text.includes('technology') ||
-      text.includes('tech') ||
-      text.includes('aws') ||
-      text.includes('language')
-    ) {
-      setAnswer(
-        'Her skills span backend engineering, distributed systems, AWS, data engineering, machine learning, databases, Docker, Kubernetes, and more.',
-      )
-      return
-    }
-
+  
+    // Education / where she studied
     if (
       text.includes('education') ||
       text.includes('nyu') ||
       text.includes('degree') ||
-      text.includes('graduate')
+      text.includes('graduate') ||
+      text.includes('studied') ||
+      text.includes('study') ||
+      text.includes('university') ||
+      text.includes('college') ||
+      text.includes('school')
     ) {
       setAnswer(
-        'Harini graduated with an MS in Computer Science from NYU in May 2026.',
+        'Harini graduated with an MS in Computer Science from New York University (NYU) in May 2026.',
       )
+      setQuestion('')
       return
     }
-
+  
+    // Location
+    if (
+      text.includes('live') ||
+      text.includes('location') ||
+      text.includes('based') ||
+      text.includes('where is harini') ||
+      text.includes('where does harini')
+    ) {
+      setAnswer(
+        'Harini is currently based in Boston, Massachusetts, United States, and is open to relocation for the right opportunity.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // Availability / job search
+    if (
+      text.includes('available') ||
+      text.includes('looking for') ||
+      text.includes('open to work') ||
+      text.includes('opportunity') ||
+      text.includes('role') ||
+      text.includes('hiring') ||
+      text.includes('hire')
+    ) {
+      setAnswer(
+        'Harini is currently exploring Software Engineering, Backend Engineering, and AI Engineering opportunities. She is open to relocation and available to connect about relevant roles.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // Resume
+    if (
+      text.includes('resume') ||
+      text.includes('cv')
+    ) {
+      setAnswer(
+        'You can view Harini’s resume using the Resume button in the navigation or Hero section.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // GitHub
+    if (
+      text.includes('github') ||
+      text.includes('source code')
+    ) {
+      setAnswer(
+        'You can explore Harini’s projects and code on GitHub at github.com/vgharini21.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // LinkedIn
+    if (text.includes('linkedin')) {
+      setAnswer(
+        'You can connect with Harini on LinkedIn at linkedin.com/in/harinivinu/.',
+      )
+      setQuestion('')
+      return
+    }
+  
+    // Contact
     if (
       text.includes('contact') ||
       text.includes('email') ||
-      text.includes('linkedin') ||
-      text.includes('reach')
+      text.includes('reach') ||
+      text.includes('get in touch') ||
+      text.includes('talk to harini') ||
+      text.includes('connect with harini')
     ) {
       setAnswer(
-        'You can reach Harini through email or LinkedIn. I can take you to the Contact section too.',
+        'You can reach Harini through email or LinkedIn. Head to the Contact section and you’ll find the best ways to get in touch.',
       )
+      setQuestion('')
       return
     }
+  
+    // General experience
     if (
-        text.includes('live') ||
-        text.includes('location') ||
-        text.includes('based') ||
-        text.includes('where is harini') ||
-        text.includes('where does harini')
-      ) 
-    {
-        setAnswer(
-          'Harini is currently based in Boston, Massachusetts, United States.',
-        )
-        return
+      text.includes('experience') ||
+      text.includes('work') ||
+      text.includes('job') ||
+      text.includes('worked')
+    ) {
+      setAnswer(
+        'Harini has experience across backend engineering, distributed systems, cloud infrastructure, data-intensive pipelines, and AI-driven applications. Check out the Experience section for the full story.',
+      )
+      setQuestion('')
+      return
     }
+  
+    // General skills
     if (
-        text.includes('available') ||
-        text.includes('looking for') ||
-        text.includes('open to work') ||
-        text.includes('opportunity') ||
-        text.includes('role')
-      ) {
-        setAnswer(
-          'Harini is currently exploring Software Engineering and AI Engineering opportunities and is open to conversations, collaborations, and new ideas.',
-        )
-        return
+      text.includes('skill') ||
+      text.includes('technology') ||
+      text.includes('technologies') ||
+      text.includes('tech stack') ||
+      text.includes('tech')
+    ) {
+      setAnswer(
+        'Harini’s technical toolkit spans backend engineering, distributed systems, AWS, data engineering, machine learning, databases, Docker, Kubernetes, and more. The Skills section has the complete breakdown.',
+      )
+      setQuestion('')
+      return
     }
-
+  
+    // Greeting
     if (
-        text.includes('resume') ||
-        text.includes('cv')
-      ) {
-        setAnswer(
-          'You can view Harini’s resume from the Resume button in the navigation or Hero section.',
-        )
-        return
+      text === 'hi' ||
+      text === 'hello' ||
+      text === 'hey' ||
+      text.includes('who are you')
+    ) {
+      setAnswer(
+        "Hi! I'm HV-01, Harini's little engineering companion ✦ I can tell you about her experience, projects, skills, education, and more.",
+      )
+      setQuestion('')
+      return
     }
-
+  
+    // About Harini
     if (
-        text.includes('github') ||
-        text.includes('code')
-      ) {
-        setAnswer(
-          'You can explore Harini’s GitHub at github.com/vgharini21.',
-        )
-        return
+      text.includes('who is harini') ||
+      text.includes('tell me about harini') ||
+      text.includes('about harini')
+    ) {
+      setAnswer(
+        'Harini is a Software Engineer and AI Engineer with an MS in Computer Science from NYU. She enjoys building reliable backend systems, distributed infrastructure, data-intensive applications, and intelligent products.',
+      )
+      setQuestion('')
+      return
     }
-
-    if (
-        text.includes('linkedin')
-      ) {
-        setAnswer(
-          'You can connect with Harini on LinkedIn at linkedin.com/in/harinivinu/.',
-        )
-        return
-    }
-
+  
+    // Fallback
     setAnswer(
-      "I don't know that one yet! Try asking about Harini's experience, projects, skills, education, AWS work, or contact information.",
+      "Hmm, I don't know that one yet ✦ Try asking me about Harini's experience, projects, backend work, AWS experience, AI/ML work, skills, education, location, availability, or how to contact her.",
     )
+    setQuestion('')
+      return
+
   }
   
     const startBellyRub = () => {
@@ -385,6 +553,44 @@ export function EngineeringCompanion() {
         }, 2200)
       }
 
+      const handleNoteSubmit = async (
+        event: FormEvent<HTMLFormElement>,
+      ) => {
+        event.preventDefault()
+      
+        const form = event.currentTarget
+        const formData = new FormData(form)
+      
+        setNoteSending(true)
+        setNoteError('')
+      
+        try {
+          const response = await fetch(
+            'https://formspree.io/f/xpqvbwep',
+            {
+              method: 'POST',
+              body: formData,
+              headers: {
+                Accept: 'application/json',
+              },
+            },
+          )
+      
+          if (!response.ok) {
+            throw new Error('Unable to send message')
+          }
+      
+          form.reset()
+          setNoteSent(true)
+        } catch {
+          setNoteError(
+            'Something went wrong. Please try again or contact Harini directly.',
+          )
+        } finally {
+          setNoteSending(false)
+        }
+      }
+
   if (!ready) return null
 
   return (
@@ -400,12 +606,28 @@ export function EngineeringCompanion() {
           happy ? 'engineering-companion--happy' : '',
           blinking ? 'engineering-companion--blinking' : '',
           bellyRub ? 'engineering-companion--belly-rubbed' : '',
+          reducedMotion ? 'engineering-companion--reduced-motion' : '',
         ].join(' ')}
         style={{
           transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
           ['--facing' as string]: facing,
         }}
       >
+        {/* HV-01 INTRO HINT */}
+        {showHint && !panelOpen ? (
+        <button
+            type="button"
+            className="engineering-companion__hint"
+            onClick={(event) => {
+            event.stopPropagation()
+            setShowHint(false)
+            setPanelOpen(true)
+            }}
+        >
+            psst... you can ask me about Harini
+            <span aria-hidden> ✦</span>
+        </button>
+        ) : null}
 
         <button
           type="button"
@@ -679,64 +901,106 @@ export function EngineeringCompanion() {
       </div>
 
       {panelOpen ? (
-        <div
-          className="companion-panel"
-          role="dialog"
-          aria-label="Ask about Harini"
+  <div
+    className="companion-panel"
+    role="dialog"
+    aria-label={
+      panelView === 'ask'
+        ? 'Ask about Harini'
+        : 'Leave Harini a note'
+    }
+  >
+    {/* HEADER */}
+    <div className="companion-panel__header">
+      <div>
+        <p className="companion-panel__eyebrow">
+          HV-01 · ONLINE
+        </p>
+
+        <h2>
+          {panelView === 'ask'
+            ? 'Ask me about Harini'
+            : 'Leave Harini a note'}
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          setPanelOpen(false)
+          setPanelView('ask')
+        }}
+        className="companion-panel__close"
+        aria-label="Close companion panel"
+      >
+        ×
+      </button>
+    </div>
+
+    {/* =========================
+        ASK VIEW
+    ========================== */}
+    {panelView === 'ask' ? (
+      <>
+        <p className="companion-panel__intro">
+          I can show you around or answer a few quick questions.
+        </p>
+
+        <div className="companion-panel__actions">
+          <button
+            type="button"
+            onClick={() => scrollToSection('experience')}
+          >
+            Experience
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollToSection('projects')}
+          >
+            Projects
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollToSection('skills')}
+          >
+            Skills
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollToSection('education')}
+          >
+            Education
+          </button>
+        </div>
+
+        <form
+          className="companion-panel__question"
+          onSubmit={handleQuestion}
         >
-          <div className="companion-panel__header">
-            <div>
-              <p className="companion-panel__eyebrow">
-                HV-01 · ONLINE
-              </p>
+          <label htmlFor="companion-question">
+            Ask a question
+          </label>
 
-              <h2>Ask me about Harini</h2>
-            </div>
+          <input
+            id="companion-question"
+            type="text"
+            value={question}
+            onChange={(event) =>
+              setQuestion(event.target.value)
+            }
+            placeholder="What has Harini built?"
+            autoComplete="off"
+          />
 
-            <button
-              type="button"
-              onClick={() => setPanelOpen(false)}
-              className="companion-panel__close"
-              aria-label="Close companion panel"
-            >
-              ×
-            </button>
-          </div>
+          <button type="submit">
+            Ask →
+          </button>
+        </form>
 
-          <p className="companion-panel__intro">
-            I can show you around or answer a few quick questions.
-          </p>
-
-          <div className="companion-panel__actions">
-            <button
-              type="button"
-              onClick={() => scrollToSection('experience')}
-            >
-              Experience
-            </button>
-
-            <button
-              type="button"
-              onClick={() => scrollToSection('projects')}
-            >
-              Projects
-            </button>
-
-            <button
-              type="button"
-              onClick={() => scrollToSection('skills')}
-            >
-              Skills
-            </button>
-
-            <button
-              type="button"
-              onClick={() => scrollToSection('education')}
-            >
-              Education
-            </button>
-          </div>
-
+        {answer ? (
           <div
             className="companion-panel__answer"
             aria-live="polite"
@@ -744,43 +1008,143 @@ export function EngineeringCompanion() {
             <span className="companion-panel__answer-dot" />
             <p>{answer}</p>
           </div>
+        ) : null}
 
-          <form
-            className="companion-panel__question"
-            onSubmit={handleQuestion}
+        <div className="companion-panel__note">
+          <p>
+            Want Harini to know you stopped by?
+          </p>
+
+          <button
+            type="button"
+            onClick={() => setPanelView('note')}
           >
-            <label htmlFor="companion-question">
-              Ask a question
-            </label>
-
-            <input
-              id="companion-question"
-              type="text"
-              value={question}
-              onChange={(event) => setQuestion(event.target.value)}
-              placeholder="What has Harini built?"
-              autoComplete="off"
-            />
-
-            <button type="submit">
-              Ask →
-            </button>
-          </form>
-
-          <div className="companion-panel__note">
-            <p>Want Harini to know you stopped by?</p>
-
-            <button
-              type="button"
-              onClick={() => scrollToSection('contact')}
-            >
-              Leave a note →
-            </button>
-          </div>
+            Leave a note →
+          </button>
         </div>
-      ) : null}
-      
-      {bellyMessage ? (
+      </>
+    ) : (
+      /* =========================
+          NOTE VIEW
+      ========================== */
+      <>
+        <button
+          type="button"
+          className="companion-panel__back"
+          onClick={() => setPanelView('ask')}
+        >
+          ← Back
+        </button>
+
+        <p className="companion-panel__intro">
+          Leave your details and a message. I&apos;ll make
+          sure Harini gets it. ✦
+        </p>
+
+        {noteSent ? (
+  <div className="companion-note-success">
+    <div className="companion-note-success__signal" aria-hidden>
+      <span className="companion-note-success__ring" />
+      <span className="companion-note-success__check">✓</span>
+    </div>
+
+    <p className="companion-note-success__eyebrow">
+      HV-01 · MESSAGE DELIVERED
+    </p>
+
+    <h3>Message received!</h3>
+
+    <p className="companion-note-success__copy">
+      I&apos;ll make sure Harini sees it.
+      <span aria-hidden> ✦</span>
+    </p>
+
+    <div className="companion-note-success__status">
+      <span className="companion-note-success__dot" />
+      Transmission complete
+    </div>
+
+    <button
+      type="button"
+      onClick={() => {
+        setNoteSent(false)
+        setPanelView('ask')
+      }}
+    >
+      Back to HV-01 →
+    </button>
+  </div>
+) : (
+  <form
+    className="companion-note-form"
+    onSubmit={handleNoteSubmit}
+  >
+    <label>
+      Your name
+
+      <input
+        type="text"
+        name="name"
+        placeholder="Your name"
+        required
+      />
+    </label>
+
+    <label>
+      Email
+
+      <input
+        type="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+      />
+    </label>
+
+    <label>
+      Message
+
+      <textarea
+        name="message"
+        placeholder="Write your message..."
+        rows={5}
+        required
+      />
+    </label>
+
+    <input
+      type="hidden"
+      name="_subject"
+      value="New message from Harini's portfolio"
+    />
+
+    {noteError ? (
+      <p className="companion-note-form__error">
+        {noteError}
+      </p>
+    ) : null}
+
+    <button
+      type="submit"
+      disabled={noteSending}
+    >
+      {noteSending
+        ? 'Sending...'
+        : 'Send to Harini →'}
+    </button>
+  </form>
+)}
+
+        <p className="companion-note-form__footer">
+          ♡ HV-01 will deliver it
+        </p>
+      </>
+    )}
+  </div>
+) : null}
+
+        {/* Belly message stays OUTSIDE the panel */}
+        {bellyMessage ? (
         <div
             className="companion-belly-toast"
             role="status"
