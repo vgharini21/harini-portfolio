@@ -235,7 +235,7 @@ export const skillGroups: { category: string; skills: string[] }[] = [
   {
     category: 'Cloud, DevOps & Monitoring',
     skills: [
-      'AWS (Kinesis, Step Functions, CloudFront, CloudFormation, Cognito, Rekognition)',
+      'AWS',
       'Serverless',
       'Docker',
       'Kubernetes',
