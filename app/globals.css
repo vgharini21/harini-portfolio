@@ -1322,18 +1322,65 @@
 
 @media (max-width: 640px) {
   .engineering-companion {
-    width: 72px;
-    height: 72px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .engineering-companion__hint {
+    display: none;
   }
 
   .companion-panel {
-    left: 16px;
-    right: 16px;
-    bottom: 105px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
 
     width: auto;
+    max-height: 72dvh;
 
-    max-height: calc(100vh - 140px);
+    padding: 18px;
+
+    border-radius: 20px;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .companion-belly-toast {
+    right: 10px;
+    bottom: 74px;
+
+    max-width: calc(100vw - 20px);
+
+    white-space: normal;
+    text-align: center;
+  }
+}
+@media (max-width: 640px) {
+  .companion-panel__header h2 {
+    font-size: 20px;
+  }
+
+  .companion-panel__intro {
+    font-size: 12px;
+  }
+
+  .companion-panel__actions {
+    gap: 7px;
+  }
+
+  .companion-panel__actions button {
+    padding: 8px 9px;
+    font-size: 11px;
+  }
+
+  .companion-panel__question {
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+
+  .companion-panel__answer {
+    margin-top: 12px;
   }
 }
 
@@ -1914,5 +1961,226 @@
   100% {
     opacity: 0;
     transform: scale(1.25);
+  }
+}
+
+/* ==========================================================================
+   HV-01 v2 — warm ivory companion
+   Visual refresh: softer shell, smaller eyes, calmer motion, mobile-safe UI.
+   Keep this block AFTER the existing companion styles so these rules win.
+   ========================================================================== */
+
+.engineering-companion__float {
+  filter:
+    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.18))
+    drop-shadow(
+      0 0 12px
+      color-mix(in oklch, var(--accent) 10%, transparent)
+    );
+}
+
+.dark .engineering-companion__float {
+  filter:
+    drop-shadow(0 14px 20px rgba(0, 0, 0, 0.42))
+    drop-shadow(
+      0 0 15px
+      color-mix(in oklch, var(--accent) 15%, transparent)
+    );
+}
+
+/* The new face uses small amber eyes, so keep them visible when happy. */
+.engineering-companion--happy .engineering-companion__eye {
+  transform: scaleY(0.34);
+}
+
+.engineering-companion--happy .engineering-companion__pupil {
+  opacity: 1;
+}
+
+.engineering-companion--belly-rubbed .engineering-companion__eye {
+  transform: scaleY(0.30) !important;
+}
+
+.engineering-companion--belly-rubbed .engineering-companion__pupil {
+  opacity: 1 !important;
+}
+
+/* Belly target moved higher on the new capsule body. */
+.engineering-companion__belly-zone {
+  left: 39%;
+  top: 62%;
+  width: 22%;
+  height: 22%;
+  cursor: pointer;
+}
+
+/* Slightly calmer idle movement suits the floating-pod design. */
+.engineering-companion__float {
+  animation: hv01-float 4.8s ease-in-out infinite;
+}
+
+.engineering-companion--happy .engineering-companion__float {
+  animation: hv01-happy 420ms ease-in-out infinite alternate;
+}
+
+.engineering-companion--playing .engineering-companion__float {
+  animation: hv01-hello 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes hv01-float {
+  0%,
+  100% {
+    transform:
+      scaleX(var(--facing))
+      translateY(0)
+      rotate(-0.7deg);
+  }
+
+  50% {
+    transform:
+      scaleX(var(--facing))
+      translateY(-4px)
+      rotate(0.7deg);
+  }
+}
+
+@keyframes hv01-happy {
+  from {
+    transform:
+      scaleX(var(--facing))
+      translateY(-2px)
+      rotate(-2deg)
+      scale(1.02);
+  }
+
+  to {
+    transform:
+      scaleX(var(--facing))
+      translateY(-5px)
+      rotate(2deg)
+      scale(1.045);
+  }
+}
+
+@keyframes hv01-hello {
+  0% {
+    transform:
+      scaleX(var(--facing))
+      translateY(0)
+      scale(1);
+  }
+
+  42% {
+    transform:
+      scaleX(var(--facing))
+      translateY(-12px)
+      scale(1.05);
+  }
+
+  100% {
+    transform:
+      scaleX(var(--facing))
+      translateY(0)
+      scale(1);
+  }
+}
+
+/* Hint is intentionally lighter and less visually dominant. */
+.engineering-companion__hint {
+  right: 76px;
+  bottom: 62px;
+  width: 205px;
+
+  border-color:
+    color-mix(in oklch, var(--accent) 22%, var(--border));
+
+  background:
+    color-mix(in oklch, var(--background) 94%, transparent);
+
+  box-shadow:
+    0 12px 30px -18px rgba(0, 0, 0, 0.42),
+    0 0 18px
+      color-mix(in oklch, var(--accent) 7%, transparent);
+}
+
+/* Mobile: HV-01 should be a helper, never a content blocker. */
+@media (max-width: 640px) {
+  .engineering-companion {
+    width: 58px;
+    height: 58px;
+  }
+
+  .engineering-companion__hint {
+    display: none;
+  }
+
+  .engineering-companion--panel-open {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .companion-belly-toast {
+    right: 14px;
+    bottom: 82px;
+    max-width: calc(100vw - 28px);
+    white-space: normal;
+    text-align: center;
+  }
+
+  .companion-panel {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+
+    width: auto;
+    max-height: 78svh;
+
+    padding: 18px;
+
+    border-radius: 22px;
+
+    box-shadow:
+      0 24px 70px -24px rgba(0, 0, 0, 0.52),
+      0 0 28px
+        color-mix(in oklch, var(--accent) 8%, transparent);
+  }
+
+  .companion-panel__actions {
+    gap: 7px;
+  }
+
+  .companion-panel__actions button {
+    min-height: 42px;
+  }
+
+  .companion-panel__question input,
+  .companion-note-form input,
+  .companion-note-form textarea {
+    font-size: 16px; /* avoids iOS input zoom */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .engineering-companion__float,
+  .engineering-companion--happy .engineering-companion__float,
+  .engineering-companion--playing .engineering-companion__float {
+    animation: none;
+  }
+}
+@media (max-width: 640px) {
+  .engineering-companion {
+    width: 64px;
+    height: 64px;
+  }
+
+  .engineering-companion__hint {
+    display: none;
+  }
+
+  .companion-belly-toast {
+    right: 12px;
+    bottom: 82px;
+    max-width: calc(100vw - 24px);
+    white-space: normal;
   }
 }

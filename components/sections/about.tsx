@@ -16,7 +16,7 @@ export function About() {
         <SectionHeading
           index="01"
           kicker="About"
-          title="Engineering reliable systems at scale"
+          title="Engineering reliable systems at scale."
         />
 
         <div className="space-y-10">
@@ -37,7 +37,7 @@ export function About() {
                   Focus
                 </dt>
                 <dd className="mt-2 text-sm text-foreground">
-                  Distributed Systems, Backend, ML
+                Backend · Distributed Systems · AI
                 </dd>
               </div>
 

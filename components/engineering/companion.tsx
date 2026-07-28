@@ -186,41 +186,34 @@ export function EngineeringCompanion() {
     }
   }, [reducedMotion])
 
-//   useEffect(() => {
-//     const handlePageClick = (event: MouseEvent) => {
-//       if (arriving || panelOpen) return
+  useEffect(() => {
+    if (!ready || arriving || panelOpen) {
+      setShowHint(false)
+      return
+    }
+  
+    // Show it initially
+    setShowHint(true)
+  
+    const hideTimer = window.setTimeout(() => {
+      setShowHint(false)
+    }, 2000)
+  
+    // Then show it every 5 seconds
+    const interval = window.setInterval(() => {
+      setShowHint(true)
+  
+      window.setTimeout(() => {
+        setShowHint(false)
+      }, 2000)
+    }, 5000)
+  
+    return () => {
+      window.clearTimeout(hideTimer)
+      window.clearInterval(interval)
+    }
+  }, [ready, arriving, panelOpen])
 
-//       const target = event.target as HTMLElement
-
-//       if (
-//         target.closest(
-//           'a, button, input, textarea, select, [role="button"], [data-companion]',
-//         )
-//       ) {
-//         return
-//       }
-
-//       const next = clampPosition(
-//         event.clientX - COMPANION_SIZE / 2,
-//         event.clientY - COMPANION_SIZE / 2,
-//       )
-
-//       setFacing(next.x < position.x ? -1 : 1)
-//       setMoving(true)
-//       setHappy(false)
-//       setPosition(next)
-
-//       window.setTimeout(() => {
-//         setMoving(false)
-//       }, 850)
-//     }
-
-//     window.addEventListener('click', handlePageClick)
-
-//     return () => {
-//       window.removeEventListener('click', handlePageClick)
-//     }
-//   }, [arriving, clampPosition, panelOpen, position.x])
 
   const handleCompanionClick = () => {
     if (arriving) return
@@ -606,6 +599,7 @@ export function EngineeringCompanion() {
           happy ? 'engineering-companion--happy' : '',
           blinking ? 'engineering-companion--blinking' : '',
           bellyRub ? 'engineering-companion--belly-rubbed' : '',
+          panelOpen ? 'engineering-companion--panel-open' : '',
           reducedMotion ? 'engineering-companion--reduced-motion' : '',
         ].join(' ')}
         style={{
@@ -647,236 +641,192 @@ export function EngineeringCompanion() {
               aria-hidden="true"
             >
               <defs>
+                {/* Warm ivory shell — deliberately stays light in both themes */}
                 <linearGradient id="buddy-shell" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#48413e" />
-                  <stop offset="45%" stopColor="#292421" />
-                  <stop offset="100%" stopColor="#151210" />
+                  <stop offset="0%" stopColor="#fffdf8" />
+                  <stop offset="52%" stopColor="#f7eee4" />
+                  <stop offset="100%" stopColor="#ead9cb" />
+                </linearGradient>
+
+                <linearGradient id="buddy-shell-edge" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#ffffff" />
+                  <stop offset="100%" stopColor="#d9b7a4" />
                 </linearGradient>
 
                 <linearGradient id="buddy-face" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#373230" />
-                  <stop offset="100%" stopColor="#1b1817" />
+                  <stop offset="0%" stopColor="#181817" />
+                  <stop offset="100%" stopColor="#080808" />
                 </linearGradient>
 
                 <radialGradient id="buddy-copper">
-                  <stop offset="0%" stopColor="#fff0d5" />
-                  <stop offset="30%" stopColor="#ffc07d" />
-                  <stop offset="65%" stopColor="#e48458" />
-                  <stop offset="100%" stopColor="#a64e34" />
+                  <stop offset="0%" stopColor="#fff4df" />
+                  <stop offset="32%" stopColor="#ffd09a" />
+                  <stop offset="68%" stopColor="#e9865c" />
+                  <stop offset="100%" stopColor="#b65d40" />
+                </radialGradient>
+
+                <radialGradient id="buddy-soft-glow">
+                  <stop offset="0%" stopColor="#f6a77f" stopOpacity="0.34" />
+                  <stop offset="100%" stopColor="#f6a77f" stopOpacity="0" />
                 </radialGradient>
 
                 <filter id="buddy-glow">
-                  <feGaussianBlur stdDeviation="2.3" result="blur" />
+                  <feGaussianBlur stdDeviation="1.8" result="blur" />
                   <feMerge>
                     <feMergeNode in="blur" />
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
+
+                <filter id="buddy-shell-shadow" x="-40%" y="-40%" width="180%" height="200%">
+                  <feDropShadow
+                    dx="0"
+                    dy="7"
+                    stdDeviation="6"
+                    floodColor="#000000"
+                    floodOpacity="0.20"
+                  />
+                </filter>
               </defs>
 
-              <g className="engineering-companion__antenna">
-                <path
-                  d="M46 35 L40 24"
-                  stroke="var(--accent)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <circle
-                    cx="39"
-                    cy="22"
-                    r="3.8"
-                    fill="url(#buddy-copper)"
-                    filter="url(#buddy-glow)"
-                />
-                
+              {/* Soft hover glow beneath HV-01 */}
+              <ellipse
+                cx="70"
+                cy="125"
+                rx="38"
+                ry="10"
+                fill="url(#buddy-soft-glow)"
+              />
 
-                <path
-                  d="M94 35 L100 24"
-                  stroke="var(--accent)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <circle
-                  cx="101"
-                  cy="22"
-                  r="3.8"
-                  fill="url(#buddy-copper)"
-                  filter="url(#buddy-glow)"
-                />
-              </g>
-
-              <circle
+              {/* Tiny floating arms */}
+              <ellipse
                 cx="27"
-                cy="60"
-                r="10"
+                cy="87"
+                rx="8"
+                ry="17"
+                transform="rotate(14 27 87)"
                 fill="url(#buddy-shell)"
-                stroke="var(--accent)"
-                strokeOpacity="0.4"
+                stroke="#d9b7a4"
+                strokeOpacity="0.75"
               />
 
-              <circle
+              <ellipse
+                className="engineering-companion__wave-arm"
                 cx="113"
-                cy="60"
-                r="10"
+                cy="87"
+                rx="8"
+                ry="17"
+                transform="rotate(-14 113 87)"
                 fill="url(#buddy-shell)"
-                stroke="var(--accent)"
-                strokeOpacity="0.4"
+                stroke="#d9b7a4"
+                strokeOpacity="0.75"
               />
 
-              <rect
-                x="27"
-                y="32"
-                width="86"
-                height="67"
-                rx="32"
-                fill="url(#buddy-face)"
-                stroke="var(--accent)"
-                strokeOpacity="0.48"
-                strokeWidth="1.4"
-              />
-
+              {/* Single soft capsule body */}
               <path
-                d="M45 42 C58 34 81 34 95 43"
+                d="M70 16
+                   C96 16 113 35 113 62
+                   C113 86 104 108 91 121
+                   C84 128 77 132 70 132
+                   C63 132 56 128 49 121
+                   C36 108 27 86 27 62
+                   C27 35 44 16 70 16Z"
+                fill="url(#buddy-shell)"
+                stroke="url(#buddy-shell-edge)"
+                strokeWidth="1.6"
+                filter="url(#buddy-shell-shadow)"
+              />
+
+              {/* Shell highlight */}
+              <path
+                d="M45 32 C54 22 68 20 80 22"
                 stroke="white"
-                strokeOpacity="0.12"
-                strokeWidth="3"
+                strokeOpacity="0.88"
+                strokeWidth="3.4"
                 strokeLinecap="round"
                 fill="none"
               />
 
-              <g className="engineering-companion__eye">
-                <ellipse
-                  cx="52"
-                  cy="63"
-                  rx="14"
-                  ry="15"
-                  fill="#0d0c0b"
-                  stroke="var(--accent)"
-                  strokeOpacity="0.4"
-                />
+              {/* Face screen */}
+              <rect
+                x="38"
+                y="37"
+                width="64"
+                height="48"
+                rx="23"
+                fill="url(#buddy-face)"
+                stroke="#ffffff"
+                strokeOpacity="0.12"
+              />
 
+              {/* Small expressive eyes */}
+              <g className="engineering-companion__eye">
                 <g className="engineering-companion__pupil">
-                  <circle
-                    cx="52"
-                    cy="63"
-                    r="8"
+                  <ellipse
+                    cx="57"
+                    cy="60"
+                    rx="5.2"
+                    ry="6.3"
                     fill="url(#buddy-copper)"
                     filter="url(#buddy-glow)"
-                  />
-                  <circle
-                    cx="49"
-                    cy="59"
-                    r="2.3"
-                    fill="white"
-                    opacity="0.85"
                   />
                 </g>
               </g>
 
               <g className="engineering-companion__eye">
-                <ellipse
-                  cx="88"
-                  cy="63"
-                  rx="14"
-                  ry="15"
-                  fill="#0d0c0b"
-                  stroke="var(--accent)"
-                  strokeOpacity="0.4"
-                />
-
                 <g className="engineering-companion__pupil">
-                  <circle
-                    cx="88"
-                    cy="63"
-                    r="8"
+                  <ellipse
+                    cx="83"
+                    cy="60"
+                    rx="5.2"
+                    ry="6.3"
                     fill="url(#buddy-copper)"
                     filter="url(#buddy-glow)"
-                  />
-                  <circle
-                    cx="85"
-                    cy="59"
-                    r="2.3"
-                    fill="white"
-                    opacity="0.85"
                   />
                 </g>
               </g>
 
+              {/* Tiny smile */}
               <path
                 className="engineering-companion__smile"
-                d="M63 82 Q70 87 77 82"
-                stroke="var(--accent)"
-                strokeWidth="2"
+                d="M64 72 Q70 77 76 72"
+                stroke="#f3a17a"
+                strokeWidth="1.8"
                 strokeLinecap="round"
                 fill="none"
-                opacity="0.7"
+                opacity="0.9"
               />
 
-              <ellipse
-                cx="70"
-                cy="113"
-                rx="30"
-                ry="22"
-                fill="url(#buddy-shell)"
-                stroke="var(--accent)"
-                strokeOpacity="0.42"
-              />
-
-              <path
-                d="M44 107 Q30 107 27 116"
-                stroke="var(--accent)"
-                strokeWidth="6"
-                strokeLinecap="round"
-                opacity="0.65"
-              />
-
-              <path
-                className="engineering-companion__wave-arm"
-                d="M96 107 Q110 106 114 96"
-                stroke="var(--accent)"
-                strokeWidth="6"
-                strokeLinecap="round"
-                opacity="0.65"
-              />
-
-              <ellipse
-                cx="51"
-                cy="130"
-                rx="14"
-                ry="6"
-                fill="#171412"
-                stroke="var(--accent)"
-                strokeOpacity="0.3"
-              />
-
-              <ellipse
-                cx="89"
-                cy="130"
-                rx="14"
-                ry="6"
-                fill="#171412"
-                stroke="var(--accent)"
-                strokeOpacity="0.3"
-              />
-
-              <ellipse
-                cx="70"
-                cy="112"
-                rx="17"
-                ry="14"
-                fill="#201c1a"
-                stroke="var(--accent)"
-                strokeOpacity="0.22"
-              />
-
+              {/* Copper core / belly-rub target */}
               <circle
                 cx="70"
-                cy="112"
-                r="7"
+                cy="101"
+                r="5.5"
                 fill="url(#buddy-copper)"
                 filter="url(#buddy-glow)"
                 className="engineering-companion__core"
               />
+
+              {/* Subtle identity mark */}
+              <g opacity="0.72">
+                <text
+                  x="70"
+                  y="117"
+                  textAnchor="middle"
+                  fontSize="7"
+                  fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
+                  letterSpacing="1.2"
+                  fill="#b76549"
+                >
+                  HV-01
+                </text>
+                <path
+                  d="M64 122 H76"
+                  stroke="#cf7a5a"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                />
+              </g>
             </svg>
 
             <span

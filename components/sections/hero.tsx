@@ -8,8 +8,11 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative mx-auto max-w-6xl scroll-mt-20 px-6 pt-28 pb-12 lg:px-8"    >
-      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:gap-x-12 xl:gap-x-16">
+      className="relative mx-auto flex min-h-[calc(100vh-72px)] max-w-6xl scroll-mt-20 items-center px-6 lg:px-8"
+    >
+      
+        
+      <div className="grid w-full items-center gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-x-16">
         <div className="flex min-w-0 flex-col justify-center">
           <Reveal>
             <p className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
@@ -17,28 +20,36 @@ export function Hero() {
                 className="hero-star text-accent text-[10px] select-none"
                 aria-hidden
               >
-                ✦
               </span>
-              {profile.location}
+              
             </p>
           </Reveal>
 
           <Reveal delay={80}>
-            <h1 className="mt-6 text-balance font-serif text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-              {profile.name}
-            </h1>
-          </Reveal>
+          <div>
+  <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+    Boston, MA · Open to relocation
+  </p>
 
-          <Reveal delay={140}>
-            <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-lg font-medium text-foreground sm:text-xl">
-              <span>{profile.roles[0]}</span>
-              <span className="h-1 w-1 rounded-full bg-accent" aria-hidden />
-              <span>{profile.roles[1]}</span>
-            </p>
+  <h1 className="mt-3 font-serif tracking-tight text-foreground">
+    <span className="block text-4xl font-medium sm:text-5xl">
+      Hi, I'm
+    </span>
+
+    <span className="mt-2 block text-6xl font-semibold sm:text-7xl">
+      {profile.name}
+    </span>
+  </h1>
+
+  <p className="mt-3 text-xl font-medium tracking-tight text-foreground sm:text-2xl">
+    Software Engineer
+    <span className="ml-2 text-accent"></span>
+  </p>
+</div>
           </Reveal>
 
           <Reveal delay={200}>
-            <p className="mt-8 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               {profile.intro}
             </p>
           </Reveal>
@@ -48,7 +59,7 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={280}>
-            <div className="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
+            <div className="mt-7 flex flex-wrap items-center gap-3 lg:mt-10">
               <a
                 href={profile.resume}
                 target="_blank"
@@ -56,7 +67,7 @@ export function Hero() {
                 className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all duration-200 hover:opacity-95 active:scale-[0.98]"
               >
                 <FileText className="h-4 w-4 transition-transform duration-200 group-hover:scale-105" />
-                Resume
+                View Resume
               </a>
               <a
                 href={profile.github}
@@ -92,13 +103,13 @@ export function Hero() {
               className="group mt-12 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors duration-200 hover:text-foreground lg:mt-14"
             >
               Explore
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover: lg:-translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </Reveal>
         </div>
 
-        <aside className="hidden lg:block lg:pt-16 xl:pt-20">
-          <Reveal delay={160} className="sticky top-28">
+        <aside className="hidden lg:flex lg:items-center lg:justify-end">
+          <Reveal delay={160}>
             <PortraitFrame variant="hero" />
           </Reveal>
         </aside>

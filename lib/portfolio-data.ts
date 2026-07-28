@@ -6,21 +6,22 @@ export function assetPath(path: string) {
 
 export const profile = {
   name: 'Harini Vinu',
-  roles: ['Software Engineer', 'AI Engineer'],
+  greeting: "Hi, I'm Harini Vinu",
+  roles: ['Software Engineer'],
   email: 'vgharini21@gmail.com',
-  location: 'Boston, United States',
+  location: 'Boston, MA · OPEN TO RELOCATION',
   // NOTE: Update these with your exact profile URLs.
   github: 'https://github.com/vgharini21',
   linkedin: 'https://www.linkedin.com/in/harinivinu/',
   resume: `${basePath}/Harini_Vinu_Resume.pdf`,
   intro:
-    'Software Engineer and AI Engineer focused on building reliable distributed systems, scalable backend services, and data-intensive pipelines. Graduated with an MS in Computer Science from NYU, with hands-on experience across large-scale orchestration, real-time streaming, and machine learning.',
+    'I turn complex problems into scalable systems — from distributed backends and real-time data pipelines to intelligent, AI-powered applications.',
 }
 
 export const about = [
-  'I build backend and data infrastructure that stays fast and dependable under load. My work spans AI-driven test orchestration, event-driven microservices, and distributed data pipelines processing tens of millions of records.',
-  'Across internships at Qualitest, LOCOMeX, and NYU, I have engineered systems for distributed job scheduling, real-time streaming, and large-scale data processing — consistently focused on reliability, throughput, and measurable performance gains.',
-  'I am completing my MS in Computer Science at New York University, with graduate coursework in distributed systems, big data, cloud computing, machine learning, and deep learning.',
+  'I’m a software engineer focused on backend systems, distributed infrastructure, and applied AI. I enjoy turning complex technical problems into reliable systems that perform at scale.',
+  'I work across event-driven architectures, real-time data pipelines, cloud systems, and AI-powered applications — from processing millions of records to developing intelligent automation and computer vision systems.',
+  ' I hold an MS in Computer Science from New York University and currently work on faculty-led research exploring how AI approaches computer science problems and how it can support CS education.',
 ]
 
 export type Experience = {
@@ -42,10 +43,8 @@ export const experiences: Experience[] = [
     context: 'AI-driven Test Optimization Platform',
     points: [
       'Developed backend services for AI-driven test orchestration using Python, Redis (caching, queue-based processing), and MongoDB.',
-      'Enabled reliable distributed job scheduling across 100+ concurrent tasks in large-scale automated workflows.',
-      'Engineered scalable data processing pipelines for large test datasets using asynchronous queue-based processing and optimized aggregation logic, reducing execution time by 40% in high-throughput distributed systems.',
-      'Integrated monitoring and fault-tolerant retry mechanisms for distributed jobs, improving system reliability and reducing job failures by 30%.',
-      'Architected backend services to manage test workflows, improving automation scalability and service orchestration.',
+      'Engineered asynchronous data-processing pipelines that reduced execution time by 40% across large-scale test workflows.',
+      'Implemented fault-tolerant retry and monitoring mechanisms for distributed jobs, reducing failures by 30%.',
     ],
     tech: ['Python', 'Redis', 'MongoDB', 'Distributed Systems', 'Async Queues'],
   },
@@ -53,12 +52,11 @@ export const experiences: Experience[] = [
     company: 'LOCOMeX',
     role: 'Software Engineering Intern',
     dates: 'Jun 2025 — Aug 2025',
-    location: 'New York, United States',
+    location: 'Remote',
     points: [
       'Designed data validation and processing services to handle 100K+ records, ensuring consistency across large-scale ingestion workflows.',
-      'Optimized query execution and REST API performance by restructuring hierarchical data models and database access patterns.',
-      'Built scalable microservices using event-driven architecture to propagate risk signals across supplier networks in real time.',
-      'Implemented aggregation, transformation, and normalization logic for large supplier datasets, improving ESG risk scoring accuracy and reducing latency by 30%.',
+      'Developed event-driven microservices and REST APIs to propagate supplier risk signals in real time.',
+      'Optimized data models and aggregation pipelines, reducing latency by 30% while improving ESG risk-scoring accuracy.',
     ],
     tech: ['Microservices', 'Event-Driven', 'REST APIs', 'Data Modeling'],
   },
@@ -68,10 +66,9 @@ export const experiences: Experience[] = [
     dates: 'Jan 2025 — May 2025',
     location: 'New York, United States',
     points: [
-      'Engineered distributed data pipelines using Apache Spark, Kafka, and Hadoop to process 10M+ records across scalable clusters.',
-      'Accelerated automation tools to streamline workflow reliability, cutting issue resolution time by 90%.',
-      'Optimized scalable data ingestion and processing modules with real-world datasets, improving distributed system efficiency by 25%.',
-      'Designed real-time streaming data ingestion systems using Kafka producers and consumers, enabling near-real-time analytics and reducing data latency for downstream reports.',
+      'Engineered distributed data pipelines with Apache Spark, Kafka, and Hadoop to process 10M+ records across scalable clusters.',
+      'Designed real-time Kafka ingestion workflows for low-latency analytics and downstream reporting.',
+      'Streamlined data-processing and automation workflows, improving system efficiency by 25% and cutting issue-resolution time by 90%.',
     ],
     tech: ['Apache Spark', 'Kafka', 'Hadoop', 'Streaming'],
   },
@@ -81,8 +78,8 @@ export const experiences: Experience[] = [
     dates: 'Dec 2021 — Feb 2022',
     location: 'Chennai, India',
     points: [
-      'Built a hand detection and gesture recognition system with Python, OpenCV, and Google AI tools, improving detection accuracy by 40%.',
-      'Enhanced object tracking and optimized machine-learning pipelines using preprocessing and hyperparameter tuning — cutting false detections by 15%, lowering latency by 25%, and achieving real-time processing at 30 FPS on over 1,000 test samples.',
+      'Developed a real-time hand detection and gesture recognition system using Python and OpenCV, improving detection accuracy by 40%.',
+      'Optimized computer-vision pipelines through preprocessing and model tuning, reducing false detections by 15% and latency by 25% while achieving 30 FPS across 1,000+ test samples.',
     ],
     tech: ['Python', 'OpenCV', 'Computer Vision', 'ML Pipelines'],
   },
@@ -102,7 +99,7 @@ export const projects: Project[] = [
     title: 'Dining Concierge Chatbot',
     timeframe: 'Sep 2025 — Oct 2025',
     summary:
-      'Serverless conversational chatbot delivering real-time restaurant recommendations. Built with AWS (S3, API Gateway, Lambda, Lex, DynamoDB, Elasticsearch) integrated with the Yelp API. Orchestrated asynchronous workflows with SQS, automated personalized alerts via SES, and used CloudWatch for monitoring, logging, and event-driven scheduling.',
+      'Built a serverless conversational assistant that delivers personalized restaurant recommendations using the Yelp API. Designed an event-driven AWS workflow for search, asynchronous processing, notifications, and monitoring.',
     tech: ['AWS Lambda', 'API Gateway', 'DynamoDB', 'Lex', 'Elasticsearch', 'SQS', 'SES'],
     github: 'https://github.com/vgharini21/DiningConciergeChatbot',
   },
@@ -110,15 +107,15 @@ export const projects: Project[] = [
     title: 'Real-Time Stock Market Analysis System',
     timeframe: 'Sep 2024 — Oct 2024',
     summary:
-      'Distributed streaming analytics platform processing live financial data feeds with Kafka, Spark Streaming, and Hadoop. Built backend services for computing technical indicators and storing high-volume time-series data in PostgreSQL and InfluxDB for low-latency analytics, with Grafana dashboards for performance monitoring and visualization.',
+      'Built a distributed streaming platform for analyzing live financial data in real time. Used Kafka and Spark Streaming for ingestion and processing, with time-series storage and Grafana dashboards for monitoring market trends and system performance.',
     tech: ['Kafka', 'Spark Streaming', 'Hadoop', 'PostgreSQL', 'InfluxDB', 'Grafana'],
     github: 'https://github.com/vgharini21/BdProject_TradeJoe',
   },
   {
-    title: 'Real-Time Video Monitoring & Alert System',
+    title: 'Real-Time Video Intelligence & Alerting',
     timeframe: 'Jan 2025 — May 2025',
     summary:
-      'Scalable real-time monitoring system using AWS Kinesis, Lambda, SQS, DynamoDB, and Rekognition to process live data streams and perform image analysis with millisecond-level alerting. Implemented analytics pipelines with Elasticsearch and AWS QuickSight to surface operational insights from streaming event data.',
+      'Built a real-time video monitoring pipeline that analyzes live streams and triggers automated alerts from detected events. Designed the system on AWS using Kinesis, Lambda, Rekognition, and SQS, with Elasticsearch and QuickSight for downstream analytics.',
     tech: ['AWS Kinesis', 'Lambda', 'DynamoDB', 'Rekognition', 'Elasticsearch', 'QuickSight'],
     github: 'https://github.com/BhuOne02/projectKoala',
   },
@@ -126,22 +123,31 @@ export const projects: Project[] = [
 
 export const research = {
   focus:
-    'Distributed systems, big data engineering, and applied machine learning — with an emphasis on real-time streaming architectures and large-scale data processing.',
+    'Building scalable systems, real-time data pipelines, and applied AI — while exploring how AI is reshaping computer science.',
   areas: [
     {
-      title: 'Distributed Data Pipelines',
+      title: 'Distributed & Cloud Systems',
       description:
-        'Engineering fault-tolerant pipelines with Apache Spark, Kafka, and Hadoop to process 10M+ records across scalable clusters, improving distributed system efficiency by 25%.',
+        'Building reliable backend and cloud infrastructure using AWS, microservices, event-driven architectures, and distributed systems patterns.',
+      tech: 'AWS · Microservices · Serverless · Docker',
     },
     {
-      title: 'Real-Time Streaming Systems',
+      title: 'Real-Time Data Engineering',
       description:
-        'Designing near-real-time ingestion using Kafka producers and consumers to power low-latency analytics for downstream reporting.',
+        'Designing high-throughput data pipelines and streaming systems for processing, transforming, and analyzing large-scale data with low latency.',
+      tech: 'Kafka · Spark · Kinesis · Hadoop',
     },
     {
-      title: 'Applied Computer Vision',
+      title: 'Applied AI & Machine Learning',
       description:
-        'Building and tuning ML pipelines for gesture recognition and object tracking, achieving real-time 30 FPS inference with improved detection accuracy.',
+        'Building practical AI systems across computer vision, deep learning, LLM applications, and intelligent automation — from experimentation to working products.',
+      tech: 'PyTorch · TensorFlow · Computer Vision · LLMs',
+    },
+    {
+      title: 'AI for Computer Science Education',
+      description:
+        'Evaluating how AI tools approach computer science assignments across different academic levels and subject areas, including algorithms, security, operating systems, machine learning, privacy, and policy.',
+      tech: 'LLMs · AI Evaluation · CS Education · Technical Research',
     },
   ],
 }
@@ -159,7 +165,7 @@ export const education: Education[] = [
     school: 'New York University',
     degree: 'Master of Science, Computer Science',
     dates: 'Sep 2024 — May 2026',
-    gpa: '3.74 / 4.00',
+    gpa: '3.75 / 4.00',
     courses: [
       'Data Structures & Algorithms',
       'Distributed Systems',
@@ -250,10 +256,46 @@ export const skillGroups: { category: string; skills: string[] }[] = [
   },
 ]
 
-export const certifications = [
-  'NYU: CareerHub Data Science Bootcamp',
-  'Accenture: AI',
-  'Infosys SpringBoard: Java Certified Foundation Associate',
+export type Certification = {
+  title: string
+  issuer: string
+  year?: string
+  category: 'AI & ML' | 'Data' | 'Software' | 'Security' | 'Data Science'
+  credential?: string
+}
+
+export const certifications: Certification[] = [
+  {
+    title: 'Artificial Intelligence',
+    issuer: 'Infosys Springboard',
+    year: '2023',
+    category: 'AI & ML',
+  },
+  {
+    title: 'Career Hub Data Science Bootcamp',
+    issuer: 'NYU Tandon School of Engineering',
+    category: 'Data Science',
+  },
+  {
+    title: 'Digital Skills: Artificial Intelligence',
+    issuer: 'Accenture',
+    category: 'AI & ML',
+  },
+  {
+    title: 'Big Data Programming Languages & Big Data vs Data Science',
+    issuer: 'Udemy',
+    category: 'Data',
+  },
+  {
+    title: 'Data Analytics, Storage, Mining & Visual Big Data Technologies',
+    issuer: 'Udemy',
+    category: 'Data',
+  },
+  {
+    title: 'Cyber-Security Bootcamp',
+    issuer: 'Udemy',
+    category: 'Security',
+  },
 ]
 
 export const navLinks = [

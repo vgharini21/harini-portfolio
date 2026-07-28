@@ -17,8 +17,8 @@ export function Projects() {
       <div className="relative z-10">
         <SectionHeading
           index="03"
-          kicker="Featured Projects"
-          title="Selected work"
+          kicker="Selected Work"
+          title="Featured Projects"
         />
 
         <div className="grid gap-6 md:grid-cols-2">
