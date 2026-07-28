@@ -10,10 +10,13 @@ import { Education } from '@/components/sections/education'
 import { Skills } from '@/components/sections/skills'
 import { Contact } from '@/components/sections/contact'
 import { Footer } from '@/components/sections/footer'
+import { BootScreen } from '@/components/boot-screen'
 
 export default function Page() {
   return (
-    <PortfolioShell>
+    <>
+      <BootScreen />
+      <PortfolioShell>
       <Navbar />
 
       <main className="relative z-10">
@@ -29,5 +32,6 @@ export default function Page() {
 
       <Footer />
     </PortfolioShell>
+    </>
   )
 }

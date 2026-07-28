@@ -2184,3 +2184,273 @@
     white-space: normal;
   }
 }
+
+/* ==================================================
+   HV-01 Portfolio Boot Screen
+================================================== */
+
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      color-mix(in oklch, var(--accent) 8%, var(--background)),
+      var(--background) 65%
+    );
+
+    .boot-screen {
+      animation: boot-screen-exit 2500ms ease forwards;
+    }
+}
+
+.boot-screen__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: min(320px, calc(100vw - 48px));
+
+  text-align: center;
+}
+
+.boot-screen__robot {
+  display: grid;
+  place-items: center;
+
+  width: 72px;
+  height: 86px;
+
+  border: 1px solid
+    color-mix(in oklch, var(--accent) 20%, var(--border));
+
+  border-radius: 38px 38px 30px 30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf1,
+      #e8e3da
+    );
+
+  box-shadow:
+    0 16px 34px -20px rgba(0, 0, 0, 0.35),
+    0 0 28px
+      color-mix(in oklch, var(--accent) 10%, transparent);
+
+  animation: boot-robot-float 1200ms ease-in-out infinite;
+}
+
+.dark .boot-screen__robot {
+  background:
+    linear-gradient(
+      145deg,
+      #f5efe6,
+      #d7d1c8
+    );
+}
+
+.boot-screen__face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+
+  width: 48px;
+  height: 29px;
+
+  border-radius: 999px;
+
+  background: #24211f;
+}
+
+.boot-screen__eye {
+  width: 5px;
+  height: 7px;
+
+  border-radius: 999px;
+
+  background: var(--accent);
+
+  box-shadow:
+    0 0 7px
+      color-mix(in oklch, var(--accent) 70%, transparent);
+
+  animation: boot-eye-blink 1300ms ease-in-out infinite;
+}
+
+.boot-screen__name {
+  margin-top: 20px;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+
+  color: var(--foreground);
+}
+
+.boot-screen__status {
+  margin-top: 9px;
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  color: var(--muted-foreground);
+}
+
+.boot-screen__dots {
+  display: inline-block;
+
+  animation: boot-dots 800ms steps(4, end) infinite;
+}
+
+.boot-screen__track {
+  position: relative;
+
+  width: 210px;
+  height: 2px;
+
+  margin-top: 18px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: color-mix(
+    in oklch,
+    var(--foreground) 10%,
+    transparent
+  );
+}
+
+.boot-screen__progress {
+  position: absolute;
+  inset: 0 auto 0 0;
+
+  width: 100%;
+
+  background: var(--accent);
+
+  transform-origin: left;
+
+  .boot-screen__progress {
+    animation: boot-progress 1600ms
+      cubic-bezier(0.16, 1, 0.3, 1)
+      forwards;
+  }
+
+  box-shadow:
+    0 0 10px
+      color-mix(in oklch, var(--accent) 50%, transparent);
+}
+
+.boot-screen__online {
+  margin-top: 14px;
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  color: var(--accent);
+
+  opacity: 0;
+
+  animation: boot-online 250ms ease 1200ms forwards;
+}
+
+@keyframes boot-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes boot-robot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes boot-eye-blink {
+  0%,
+  82%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  88% {
+    transform: scaleY(0.15);
+  }
+}
+
+@keyframes boot-dots {
+  0% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes boot-online {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes boot-screen-exit {
+  0%,
+  84% {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-screen {
+    display: none;
+  }
+}
+.boot-screen__robot {
+  position: relative;
+}
+
+.boot-screen__robot-label {
+  position: absolute;
+  bottom: 10px;
+
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.15em;
+
+  color: #9b8e83;
+}
