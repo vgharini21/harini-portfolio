@@ -128,17 +128,18 @@ const skillIcons: Record<string, SkillIcon> = {
   Git: SiGit,
   GitHub: SiGithub,
 
-  // Generic fallbacks you may have in your data
+  // Generic fallbacks
   Microservices: Network,
   Databases: Database,
   Cloud: Cloud,
   Containers: Boxes,
   APIs: GitBranch,
 }
+
 const skillDescriptions: Record<string, string> = {
   AWS: 'Kinesis · Step Functions · CloudFront · CloudFormation · Cognito · Rekognition',
-  
 }
+
 export function Skills() {
   return (
     <section
@@ -147,14 +148,38 @@ export function Skills() {
     >
       <div className="section-atmosphere section-atmosphere--warm" />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 py-24 lg:px-8">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-6xl
+          px-5
+          pt-10
+          pb-14
+          sm:px-6
+          sm:pt-12
+          sm:pb-16
+          lg:px-8
+          lg:py-24
+        "
+      >
         <SectionHeading
           index="06"
           kicker="Technical Skills"
           title="Tools & technologies"
         />
 
-        <div className="grid gap-x-14 gap-y-16 md:grid-cols-2">
+        <div
+          className="
+            grid
+            gap-x-14
+            gap-y-10
+            sm:gap-y-12
+            md:grid-cols-2
+            lg:gap-y-16
+          "
+        >
           {skillGroups.map((group, i) => (
             <Reveal
               key={group.category}
@@ -162,7 +187,7 @@ export function Skills() {
               className="relative"
             >
               {/* Category label */}
-              <div className="mb-7 flex items-center gap-3">
+              <div className="mb-5 flex items-center gap-3 sm:mb-6 lg:mb-7">
                 <span
                   aria-hidden
                   className="
@@ -174,7 +199,7 @@ export function Skills() {
                   "
                 />
 
-                <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
+                <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent sm:text-xs">
                   {group.category}
                 </h3>
 
@@ -184,12 +209,23 @@ export function Skills() {
                 />
               </div>
 
-              {/* Floating skill constellation */}
-              <ul className="flex flex-wrap gap-x-7 gap-y-6">
+              {/* Skill constellation */}
+              <ul
+                className="
+                  flex
+                  flex-wrap
+                  gap-x-5
+                  gap-y-4
+                  sm:gap-x-6
+                  sm:gap-y-5
+                  lg:gap-x-7
+                  lg:gap-y-6
+                "
+              >
                 {group.skills.map((skill, j) => {
                   const Icon =
-                  skillIcons[skill] ||
-                  (skill.startsWith('AWS') ? Cloud : undefined)
+                    skillIcons[skill] ||
+                    (skill.startsWith('AWS') ? Cloud : undefined)
 
                   return (
                     <li
@@ -199,11 +235,12 @@ export function Skills() {
                         relative
                         flex
                         items-center
-                        gap-3
+                        gap-2.5
                         transition-transform
                         duration-300
                         hover:-translate-y-1
                         motion-reduce:hover:translate-y-0
+                        sm:gap-3
                       "
                       style={{
                         transitionDelay: `${Math.min(j, 6) * 15}ms`,
@@ -214,8 +251,8 @@ export function Skills() {
                         className="
                           relative
                           flex
-                          h-10
-                          w-10
+                          h-9
+                          w-9
                           shrink-0
                           items-center
                           justify-center
@@ -227,22 +264,24 @@ export function Skills() {
                           backdrop-blur-sm
                           transition-all
                           duration-300
-
                           group-hover/skill:border-accent/40
                           group-hover/skill:bg-accent/[0.05]
                           group-hover/skill:text-accent
-
                           group-hover/skill:shadow-[0_0_20px_color-mix(in_oklch,var(--accent)_18%,transparent)]
+                          sm:h-10
+                          sm:w-10
                         "
                       >
                         {Icon ? (
                           <Icon
                             className="
-                              h-5
-                              w-5
+                              h-4
+                              w-4
                               transition-transform
                               duration-300
                               group-hover/skill:scale-110
+                              sm:h-5
+                              sm:w-5
                             "
                             aria-hidden
                           />
@@ -259,7 +298,6 @@ export function Skills() {
                           />
                         )}
 
-                        {/* tiny constellation point */}
                         <span
                           aria-hidden
                           className="
@@ -279,15 +317,16 @@ export function Skills() {
                       </div>
 
                       {/* Skill name */}
-                      <div className="flex flex-col">
+                      <div className="flex min-w-0 flex-col">
                         <span
                           className="
-                            text-sm
+                            text-[13px]
                             leading-snug
                             text-muted-foreground
                             transition-colors
                             duration-300
                             group-hover/skill:text-foreground
+                            sm:text-sm
                           "
                         >
                           {skill}
@@ -297,10 +336,12 @@ export function Skills() {
                           <span
                             className="
                               mt-1
-                              max-w-[240px]
-                              text-[11px]
+                              max-w-[210px]
+                              text-[10px]
                               leading-relaxed
                               text-muted-foreground/60
+                              sm:max-w-[240px]
+                              sm:text-[11px]
                             "
                           >
                             {skillDescriptions[skill]}

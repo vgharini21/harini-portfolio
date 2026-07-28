@@ -8,11 +8,24 @@ export function Experience() {
       id="experience"
       className="relative scroll-mt-20 border-t border-border bg-secondary/40"
     >
-      {/* Neutral atmosphere */}
       <div className="section-atmosphere section-atmosphere--neutral" />
 
-      {/* Content above background atmosphere */}
-      <div className="relative z-10 mx-auto max-w-6xl px-6 py-24 lg:px-8">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-6xl
+          px-5
+          pt-10
+          pb-14
+          sm:px-6
+          sm:pt-12
+          sm:pb-16
+          lg:px-8
+          lg:py-24
+        "
+      >
         <SectionHeading
           index="02"
           kicker="Experience"
@@ -25,20 +38,45 @@ export function Experience() {
               as="li"
               key={exp.company}
               delay={i * 60}
-              className="group -mx-4 grid gap-x-8 gap-y-4 rounded-xl border-t border-border border-l-4 border-l-transparent px-5 py-10 transition-all duration-300 hover:translate-x-1.5 hover:border-l-accent hover:bg-card/85 hover:shadow-md"
+              className="
+                group
+                -mx-2
+                grid
+                gap-x-8
+                gap-y-3
+                rounded-xl
+                border-t
+                border-border
+                border-l-4
+                border-l-transparent
+                px-4
+                py-7
+                transition-all
+                duration-300
+                hover:translate-x-1
+                hover:border-l-accent
+                hover:bg-card/85
+                hover:shadow-md
+                sm:-mx-4
+                sm:gap-y-4
+                sm:px-5
+                sm:py-8
+                lg:py-10
+                lg:hover:translate-x-1.5
+              "
             >
               <div className="flex flex-col gap-1">
-                <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:text-xs">
                   {exp.dates}
                 </p>
 
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs text-muted-foreground sm:text-sm">
                   {exp.location}
                 </p>
               </div>
 
               <div>
-                <h3 className="font-serif text-xl font-semibold tracking-tight transition-colors duration-200 group-hover:text-foreground">
+                <h3 className="font-serif text-lg font-semibold tracking-tight transition-colors duration-200 group-hover:text-foreground sm:text-xl">
                   {exp.role}
                 </h3>
 
@@ -53,26 +91,63 @@ export function Experience() {
                   ) : null}
                 </p>
 
-                <ul className="mt-5 space-y-3">
+                <ul className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
                   {exp.points.map((point, j) => (
                     <li
                       key={j}
-                      className="relative pl-5 text-sm leading-relaxed text-muted-foreground"
+                      className="
+                        relative
+                        pl-4
+                        text-[13px]
+                        leading-6
+                        text-muted-foreground
+                        sm:pl-5
+                        sm:text-sm
+                        sm:leading-relaxed
+                      "
                     >
                       <span
-                        className="absolute left-0 top-2.5 h-1 w-1 rounded-full bg-accent transition-transform duration-200 group-hover:scale-125"
+                        className="
+                          absolute
+                          left-0
+                          top-2.5
+                          h-1
+                          w-1
+                          rounded-full
+                          bg-accent
+                          transition-transform
+                          duration-200
+                          group-hover:scale-125
+                        "
                         aria-hidden
                       />
+
                       {point}
                     </li>
                   ))}
                 </ul>
 
-                <ul className="mt-5 flex flex-wrap gap-2">
+                <ul className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
                   {exp.tech.map((t) => (
                     <li
                       key={t}
-                      className="rounded-full border border-border bg-background px-3 py-1 font-mono text-xs text-muted-foreground transition-all duration-200 hover:border-accent/30 hover:text-foreground"
+                      className="
+                        rounded-full
+                        border
+                        border-border
+                        bg-background
+                        px-2.5
+                        py-1
+                        font-mono
+                        text-[10px]
+                        text-muted-foreground
+                        transition-all
+                        duration-200
+                        hover:border-accent/30
+                        hover:text-foreground
+                        sm:px-3
+                        sm:text-xs
+                      "
                     >
                       {t}
                     </li>

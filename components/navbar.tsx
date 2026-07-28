@@ -33,13 +33,13 @@ export function Navbar() {
           : 'border-b border-transparent bg-transparent',
       )}
     >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-8">
-        <a
-          href="#top"
-          className="font-serif text-lg font-semibold tracking-tight text-foreground transition-opacity duration-200 hover:opacity-80"
-        >
-          Harini Vinu
-        </a>
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <a
+        href="#top"
+        className="font-serif text-lg font-semibold tracking-tight text-foreground transition-opacity duration-200 hover:opacity-80"
+      >
+        Harini Vinu
+      </a>
 
         <div className="hidden items-center gap-8 md:flex">
           <ul className="flex items-center gap-7">
