@@ -2600,3 +2600,39 @@
       );
   }
 }
+
+/* =========================================
+   Dynamic technical grid
+========================================= */
+
+.bg-grid--dynamic {
+  will-change: transform, opacity;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bg-grid--dynamic {
+    animation: grid-breathe 7s ease-in-out infinite;
+
+    transition:
+      transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes grid-breathe {
+  0%,
+  100% {
+    opacity: 0.68;
+  }
+
+  50% {
+    opacity: 0.92;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-grid--dynamic {
+    animation: none;
+    transition: none;
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
