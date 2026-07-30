@@ -39,8 +39,11 @@ export function AnimatedBackground() {
     media.addEventListener('change', onMotionChange)
 
     const handlePointerMove = (e: PointerEvent) => {
-      if (!media.matches) {
-        setMousePos({ x: e.clientX, y: e.clientY })
+      if (!media.matches && e.pointerType === 'mouse') {
+        setMousePos({
+          x: e.clientX,
+          y: e.clientY,
+        })
       }
     }
 
@@ -63,12 +66,31 @@ export function AnimatedBackground() {
       <div className="bg-grid absolute inset-0" />
 
       {/* Subtle cursor spotlight */}
+      {/* Interactive cursor spotlight */}
       {!reducedMotion && (
         <div
-          className="absolute inset-0 transition-opacity duration-300"
+          className="absolute inset-0 transition-opacity duration-200"
           style={{
-            background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, color-mix(in oklch, var(--accent) 18%, transparent) 0%, transparent 70%)`,
-            opacity: 0.30,
+            background: `
+              radial-gradient(
+                300px circle at ${mousePos.x}px ${mousePos.y}px,
+                color-mix(in oklch, var(--accent) 28%, transparent) 0%,
+                color-mix(in oklch, var(--accent) 12%, transparent) 35%,
+                transparent 72%
+              )
+            `,
+            opacity: 0.42,
+          }}
+        />
+      )}
+
+      {!reducedMotion && (
+        <div
+          className="absolute h-2 w-2 rounded-full bg-accent/50 blur-[2px]"
+          style={{
+            left: mousePos.x,
+            top: mousePos.y,
+            transform: 'translate(-50%, -50%)',
           }}
         />
       )}

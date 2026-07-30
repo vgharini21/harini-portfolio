@@ -35,7 +35,7 @@ export function EngineeringCompanion() {
   const [noteSending, setNoteSending] = useState(false)
   const [noteSent, setNoteSent] = useState(false)
   const [noteError, setNoteError] = useState('')
-
+  const [activeSection, setActiveSection] = useState('about')
 
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState(
@@ -139,38 +139,63 @@ export function EngineeringCompanion() {
 
   useEffect(() => {
     const handlePointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return
+  
       const companion = companionRef.current
       if (!companion || happy || blinking) return
-
+  
       const rect = companion.getBoundingClientRect()
-
+  
       const centerX = rect.left + rect.width / 2
-      const centerY = rect.top + rect.height * 0.42
-
+      const centerY = rect.top + rect.height * 0.4
+  
       const dx = event.clientX - centerX
       const dy = event.clientY - centerY
-
+  
       const distance = Math.hypot(dx, dy) || 1
-      const maxMovement = 3.5
 
-      const eyeX =
-        (dx / distance) * Math.min(maxMovement, distance / 70)
+      const isNearby = distance < 190
 
-      const eyeY =
-        (dy / distance) * Math.min(maxMovement, distance / 70)
-
+    companion.classList.toggle(
+    'engineering-companion--nearby',
+    isNearby,
+    )
+  
+      const maxX = 4.5
+      const maxY = 3.5
+      const strength = Math.min(distance / 120, 1)
+  
+      const eyeX = (dx / distance) * maxX * strength
+      const eyeY = (dy / distance) * maxY * strength
+  
       companion.style.setProperty('--eye-x', `${eyeX}px`)
       companion.style.setProperty('--eye-y', `${eyeY}px`)
     }
+  
+    const resetEyes = () => {
+      const companion = companionRef.current
+      if (!companion) return
 
+      companion.classList.remove(
+        'engineering-companion--nearby',
+      )
+  
+      companion.style.setProperty('--eye-x', '0px')
+      companion.style.setProperty('--eye-y', '0px')
+    }
+  
     window.addEventListener('pointermove', handlePointerMove, {
       passive: true,
     })
-
+  
+    window.addEventListener('pointerleave', resetEyes)
+  
     return () => {
       window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerleave', resetEyes)
     }
   }, [happy, blinking])
+
 
   useEffect(() => {
     if (reducedMotion) return
@@ -646,6 +671,7 @@ export function EngineeringCompanion() {
           aria-expanded={panelOpen}
         >
           <div className="engineering-companion__float">
+            <div className="engineering-companion__reaction">
             <svg
               viewBox="0 0 140 140"
               className="engineering-companion__svg"
@@ -857,6 +883,7 @@ export function EngineeringCompanion() {
               <span>✦</span>
               <span>♡</span>
             </span>
+          </div>
           </div>
         </button>
       </div>
