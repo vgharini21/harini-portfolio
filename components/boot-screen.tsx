@@ -5,27 +5,32 @@ import { useEffect, useState } from 'react'
 const BOOT_KEY = 'harini-portfolio-booted'
 
 export function BootScreen() {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    // Keep this while testing
     const hasBooted = null
 
     if (hasBooted) {
-      window.dispatchEvent(new Event('portfolio-boot-complete'))
+      setVisible(false)
+
+      window.dispatchEvent(
+        new Event('portfolio-boot-complete'),
+      )
+
       return
     }
 
-    setVisible(true)
-
     const timer = window.setTimeout(() => {
       setVisible(false)
-      sessionStorage.setItem(BOOT_KEY, 'true')
 
-      window.dispatchEvent(new Event('portfolio-boot-complete'))
+      window.dispatchEvent(
+        new Event('portfolio-boot-complete'),
+      )
     }, 2500)
 
-    return () => window.clearTimeout(timer)
+    return () => {
+      window.clearTimeout(timer)
+    }
   }, [])
 
   if (!visible) return null
@@ -50,7 +55,9 @@ export function BootScreen() {
 
         <p className="boot-screen__status">
           Initializing portfolio
-          <span className="boot-screen__dots">...</span>
+          <span className="boot-screen__dots">
+            ...
+          </span>
         </p>
 
         <div className="boot-screen__track">

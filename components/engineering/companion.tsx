@@ -94,7 +94,7 @@ export function EngineeringCompanion() {
     }
   
     window.addEventListener(
-      'portfolio-boot-complete',
+      'hero-intro-complete',
       startArrival,
       { once: true },
     )
@@ -121,7 +121,7 @@ export function EngineeringCompanion() {
       }
   
       window.removeEventListener(
-        'portfolio-boot-complete',
+        'hero-intro-complete',
         startArrival,
       )
   

@@ -1,10 +1,104 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight, FileText, Mail } from 'lucide-react'
+
 import { GithubIcon, LinkedinIcon } from '@/components/brand-icons'
 import { PortraitFrame } from '@/components/portrait-frame'
-import { Reveal } from '@/components/reveal'
+import { TypewriterText } from '@/components/typewriter-text'
 import { profile } from '@/lib/portfolio-data'
 
 export function Hero() {
+  const [reducedMotion, setReducedMotion] = useState(false)
+  const [motionReady, setMotionReady] = useState(false)
+  const [typingReady, setTypingReady] = useState(false)
+  const [introComplete, setIntroComplete] = useState(false)
+  const [typingComplete, setTypingComplete] = useState(false)
+  const companionEventSent = useRef(false)
+
+  useEffect(() => {
+    const media = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    )
+
+    const updateMotionPreference = () => {
+      setReducedMotion(media.matches)
+      setMotionReady(true)
+    }
+
+    updateMotionPreference()
+
+    media.addEventListener('change', updateMotionPreference)
+
+    return () => {
+      media.removeEventListener(
+        'change',
+        updateMotionPreference,
+      )
+    }
+  }, [])
+
+  useEffect(() => {
+    const hasBooted = sessionStorage.getItem(
+      'harini-portfolio-booted',
+    )
+
+    let startTimer: number | undefined
+
+    const beginTyping = () => {
+      startTimer = window.setTimeout(() => {
+        setTypingReady(true)
+      }, 250)
+    }
+
+    if (hasBooted) {
+      beginTyping()
+    } else {
+      window.addEventListener(
+        'portfolio-boot-complete',
+        beginTyping,
+        { once: true },
+      )
+    }
+
+    return () => {
+      if (startTimer) {
+        window.clearTimeout(startTimer)
+      }
+
+      window.removeEventListener(
+        'portfolio-boot-complete',
+        beginTyping,
+      )
+    }
+  }, [])
+
+  const heroContentReady =
+  motionReady &&
+  typingReady &&
+  (reducedMotion || typingComplete)
+
+  useEffect(() => {
+    if (
+      !heroContentReady ||
+      companionEventSent.current
+    ) {
+      return
+    }
+  
+    companionEventSent.current = true
+  
+    const timer = window.setTimeout(() => {
+      window.dispatchEvent(
+        new Event('hero-intro-complete'),
+      )
+    }, 650)
+  
+    return () => {
+      window.clearTimeout(timer)
+    }
+  }, [heroContentReady])
+
   return (
     <section
       id="top"
@@ -36,78 +130,104 @@ export function Hero() {
           lg:gap-x-16
         "
       >
-        {/* LEFT CONTENT */}
         <div className="flex min-w-0 flex-col justify-center">
-          <Reveal delay={80}>
-            <div>
-              {/* Location */}
-              <p
-                className="
-                  font-mono
-                  text-[10px]
-                  uppercase
-                  tracking-[0.18em]
-                  text-muted-foreground
-                  sm:text-xs
-                  sm:tracking-[0.22em]
-                "
-              >
-                Boston, MA · Open to relocation
-              </p>
+          <p
+            className="
+              font-mono
+              text-[10px]
+              uppercase
+              tracking-[0.18em]
+              text-muted-foreground
+              sm:text-xs
+              sm:tracking-[0.22em]
+            "
+          >
+            Boston, MA · Open to relocation
+          </p>
 
-              {/* Name */}
-              <h1 className="mt-3 font-serif tracking-tight text-foreground">
-                <span
-                  className="
-                    block
-                    text-3xl
-                    font-medium
-                    leading-none
-                    sm:text-4xl
-                    lg:text-5xl
-                  "
-                >
-                  Hi, I&apos;m
-                </span>
-
-                <span
-                  className="
-                    mt-2
-                    block
-                    text-5xl
-                    font-semibold
-                    leading-[0.98]
-                    sm:text-6xl
-                    lg:text-7xl
-                  "
-                >
-                  {profile.name}
-                </span>
-              </h1>
-
-              {/* Role */}
-              <p
-                className="
-                  mt-4
-                  text-lg
-                  font-medium
-                  tracking-tight
-                  text-foreground
-                  sm:text-xl
-                  lg:text-2xl
-                "
-              >
-                Software Engineer
-                <span
-                  className="mt-4 text-lg font-medium tracking-tight text-foreground sm:text-xl lg:text-2xl"
-                  aria-hidden
+          <h1 className="mt-3 font-serif tracking-tight text-foreground">
+            <span
+              className="
+                block
+                min-h-[1em]
+                text-3xl
+                font-medium
+                leading-none
+                sm:text-4xl
+                lg:text-5xl
+              "
+            >
+              {!motionReady || !typingReady ? null : reducedMotion ? (
+                <>Hi, I&apos;m</>
+              ) : (
+                <TypewriterText
+                  text="Hi, I'm"
+                  speed={68}
+                  startDelay={250}
+                  onComplete={() => setIntroComplete(true)}
                 />
-              </p>
-            </div>
-          </Reveal>
+              )}
+            </span>
 
-          {/* Intro */}
-          <Reveal delay={200}>
+            <span
+              className="
+                mt-2
+                block
+                min-h-[1em]
+                text-5xl
+                font-semibold
+                leading-[0.98]
+                sm:text-6xl
+                lg:text-7xl
+              "
+            >
+              {!motionReady || !typingReady ? null : reducedMotion ? (
+                profile.name
+              ) : introComplete ? (
+                <TypewriterText
+                  text={profile.name}
+                  speed={68}
+                  startDelay={100}
+                  onComplete={() => setTypingComplete(true)}
+                />
+              ) : null}
+            </span>
+          </h1>
+
+          <p
+            className={`
+              mt-4
+              text-lg
+              font-medium
+              tracking-tight
+              text-foreground
+              transition-all
+              duration-500
+              sm:text-xl
+              lg:text-2xl
+              ${
+                heroContentReady
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-2 opacity-0'
+              }
+            `}
+          >
+            Software Engineer
+          </p>
+
+          <div
+            className={`
+              transition-all
+              duration-700
+              ease-out
+              ${
+                heroContentReady
+                  ? 'translate-y-0 opacity-100'
+                  : 'pointer-events-none translate-y-3 opacity-0'
+              }
+            `}
+            aria-hidden={!heroContentReady}
+          >
             <p
               className="
                 mt-5
@@ -122,15 +242,11 @@ export function Hero() {
             >
               {profile.intro}
             </p>
-          </Reveal>
 
-          {/* Mobile portrait */}
-          <Reveal delay={240} className="mt-7 lg:hidden">
-            <PortraitFrame variant="hero" />
-          </Reveal>
+            <div className="mt-7 lg:hidden">
+              <PortraitFrame variant="hero" />
+            </div>
 
-          {/* CTA Buttons */}
-          <Reveal delay={280}>
             <div
               className="
                 mt-7
@@ -254,10 +370,7 @@ export function Hero() {
                 Contact
               </a>
             </div>
-          </Reveal>
 
-          {/* Explore */}
-          <Reveal delay={340}>
             <a
               href="#about"
               className="
@@ -280,25 +393,29 @@ export function Hero() {
             >
               Explore
 
-              <ArrowUpRight
-                className="
-                  h-3.5
-                  w-3.5
-                  transition-transform
-                  duration-200
-                  group-hover:translate-x-0.5
-                  group-hover:-translate-y-0.5
-                "
-              />
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-          </Reveal>
+          </div>
         </div>
 
-        {/* DESKTOP PORTRAIT */}
-        <aside className="hidden lg:flex lg:items-center lg:justify-end">
-          <Reveal delay={160}>
-            <PortraitFrame variant="hero" />
-          </Reveal>
+        <aside
+          className={`
+            hidden
+            transition-all
+            duration-700
+            ease-out
+            lg:flex
+            lg:items-center
+            lg:justify-end
+            ${
+              heroContentReady
+                ? 'translate-x-0 opacity-100'
+                : 'pointer-events-none translate-x-5 opacity-0'
+            }
+          `}
+          aria-hidden={!heroContentReady}
+        >
+          <PortraitFrame variant="hero" />
         </aside>
       </div>
     </section>
