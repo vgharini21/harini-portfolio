@@ -11,11 +11,16 @@ import { profile } from '@/lib/portfolio-data'
 export function Hero() {
   const [reducedMotion, setReducedMotion] = useState(false)
   const [motionReady, setMotionReady] = useState(false)
+
   const [typingReady, setTypingReady] = useState(false)
   const [introComplete, setIntroComplete] = useState(false)
   const [typingComplete, setTypingComplete] = useState(false)
+
   const companionEventSent = useRef(false)
 
+  /*
+   * Read the visitor's reduced-motion preference.
+   */
   useEffect(() => {
     const media = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
@@ -28,7 +33,10 @@ export function Hero() {
 
     updateMotionPreference()
 
-    media.addEventListener('change', updateMotionPreference)
+    media.addEventListener(
+      'change',
+      updateMotionPreference,
+    )
 
     return () => {
       media.removeEventListener(
@@ -38,32 +46,36 @@ export function Hero() {
     }
   }, [])
 
+  /*
+   * Start the typewriter only after the initialization
+   * screen dispatches "portfolio-boot-complete".
+   *
+   * This runs again after every full page refresh.
+   */
   useEffect(() => {
-    const hasBooted = sessionStorage.getItem(
-      'harini-portfolio-booted',
-    )
-
-    let startTimer: number | undefined
+    let typingTimer: number | undefined
 
     const beginTyping = () => {
-      startTimer = window.setTimeout(() => {
+      setTypingReady(false)
+      setIntroComplete(false)
+      setTypingComplete(false)
+
+      companionEventSent.current = false
+
+      typingTimer = window.setTimeout(() => {
         setTypingReady(true)
       }, 250)
     }
 
-    if (hasBooted) {
-      beginTyping()
-    } else {
-      window.addEventListener(
-        'portfolio-boot-complete',
-        beginTyping,
-        { once: true },
-      )
-    }
+    window.addEventListener(
+      'portfolio-boot-complete',
+      beginTyping,
+      { once: true },
+    )
 
     return () => {
-      if (startTimer) {
-        window.clearTimeout(startTimer)
+      if (typingTimer) {
+        window.clearTimeout(typingTimer)
       }
 
       window.removeEventListener(
@@ -74,10 +86,14 @@ export function Hero() {
   }, [])
 
   const heroContentReady =
-  motionReady &&
-  typingReady &&
-  (reducedMotion || typingComplete)
+    motionReady &&
+    typingReady &&
+    (reducedMotion || typingComplete)
 
+  /*
+   * After the typewriter and hero reveal finish,
+   * tell HV-01 to jump into the page.
+   */
   useEffect(() => {
     if (
       !heroContentReady ||
@@ -85,17 +101,17 @@ export function Hero() {
     ) {
       return
     }
-  
+
     companionEventSent.current = true
-  
-    const timer = window.setTimeout(() => {
+
+    const companionTimer = window.setTimeout(() => {
       window.dispatchEvent(
         new Event('hero-intro-complete'),
       )
     }, 650)
-  
+
     return () => {
-      window.clearTimeout(timer)
+      window.clearTimeout(companionTimer)
     }
   }, [heroContentReady])
 
@@ -130,7 +146,9 @@ export function Hero() {
           lg:gap-x-16
         "
       >
+        {/* Left content */}
         <div className="flex min-w-0 flex-col justify-center">
+          {/* Location */}
           <p
             className="
               font-mono
@@ -145,7 +163,9 @@ export function Hero() {
             Boston, MA · Open to relocation
           </p>
 
+          {/* Typed name */}
           <h1 className="mt-3 font-serif tracking-tight text-foreground">
+            {/* Smaller first line */}
             <span
               className="
                 block
@@ -164,11 +184,14 @@ export function Hero() {
                   text="Hi, I'm"
                   speed={68}
                   startDelay={250}
-                  onComplete={() => setIntroComplete(true)}
+                  onComplete={() => {
+                    setIntroComplete(true)
+                  }}
                 />
               )}
             </span>
 
+            {/* Large name line */}
             <span
               className="
                 mt-2
@@ -188,12 +211,15 @@ export function Hero() {
                   text={profile.name}
                   speed={68}
                   startDelay={100}
-                  onComplete={() => setTypingComplete(true)}
+                  onComplete={() => {
+                    setTypingComplete(true)
+                  }}
                 />
               ) : null}
             </span>
           </h1>
 
+          {/* Role appears after the name finishes */}
           <p
             className={`
               mt-4
@@ -215,6 +241,7 @@ export function Hero() {
             Software Engineer
           </p>
 
+          {/* Remaining hero content */}
           <div
             className={`
               transition-all
@@ -228,6 +255,7 @@ export function Hero() {
             `}
             aria-hidden={!heroContentReady}
           >
+            {/* Intro */}
             <p
               className="
                 mt-5
@@ -243,10 +271,12 @@ export function Hero() {
               {profile.intro}
             </p>
 
+            {/* Mobile portrait */}
             <div className="mt-7 lg:hidden">
               <PortraitFrame variant="hero" />
             </div>
 
+            {/* Buttons */}
             <div
               className="
                 mt-7
@@ -371,6 +401,7 @@ export function Hero() {
               </a>
             </div>
 
+            {/* Explore */}
             <a
               href="#about"
               className="
@@ -393,11 +424,21 @@ export function Hero() {
             >
               Explore
 
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight
+                className="
+                  h-3.5
+                  w-3.5
+                  transition-transform
+                  duration-200
+                  group-hover:translate-x-0.5
+                  group-hover:-translate-y-0.5
+                "
+              />
             </a>
           </div>
         </div>
 
+        {/* Desktop portrait */}
         <aside
           className={`
             hidden

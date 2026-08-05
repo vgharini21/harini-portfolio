@@ -2,24 +2,10 @@
 
 import { useEffect, useState } from 'react'
 
-const BOOT_KEY = 'harini-portfolio-booted'
-
 export function BootScreen() {
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    const hasBooted = null
-
-    if (hasBooted) {
-      setVisible(false)
-
-      window.dispatchEvent(
-        new Event('portfolio-boot-complete'),
-      )
-
-      return
-    }
-
     const timer = window.setTimeout(() => {
       setVisible(false)
 
@@ -49,15 +35,11 @@ export function BootScreen() {
           </span>
         </div>
 
-        <p className="boot-screen__name">
-          HV-01
-        </p>
+        <p className="boot-screen__name">HV-01</p>
 
         <p className="boot-screen__status">
           Initializing portfolio
-          <span className="boot-screen__dots">
-            ...
-          </span>
+          <span className="boot-screen__dots">...</span>
         </p>
 
         <div className="boot-screen__track">
