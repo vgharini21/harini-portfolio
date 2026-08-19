@@ -18,9 +18,6 @@ export function Hero() {
 
   const companionEventSent = useRef(false)
 
-  /*
-   * Read the visitor's reduced-motion preference.
-   */
   useEffect(() => {
     const media = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
@@ -46,12 +43,6 @@ export function Hero() {
     }
   }, [])
 
-  /*
-   * Start the typewriter only after the initialization
-   * screen dispatches "portfolio-boot-complete".
-   *
-   * This runs again after every full page refresh.
-   */
   useEffect(() => {
     let typingTimer: number | undefined
 
@@ -90,10 +81,6 @@ export function Hero() {
     typingReady &&
     (reducedMotion || typingComplete)
 
-  /*
-   * After the typewriter and hero reveal finish,
-   * tell HV-01 to jump into the page.
-   */
   useEffect(() => {
     if (
       !heroContentReady ||
@@ -141,14 +128,13 @@ export function Hero() {
           grid
           w-full
           items-center
-          gap-8
-          lg:grid-cols-[minmax(0,1fr)_320px]
-          lg:gap-x-16
+          gap-10
+          lg:grid-cols-[minmax(0,1fr)_380px]
+          lg:gap-x-14
         "
       >
-        {/* Left content */}
+        {/* LEFT */}
         <div className="flex min-w-0 flex-col justify-center">
-          {/* Location */}
           <p
             className="
               font-mono
@@ -163,9 +149,7 @@ export function Hero() {
             Boston, MA · Open to relocation
           </p>
 
-          {/* Typed name */}
           <h1 className="mt-3 font-serif tracking-tight text-foreground">
-            {/* Smaller first line */}
             <span
               className="
                 block
@@ -191,7 +175,6 @@ export function Hero() {
               )}
             </span>
 
-            {/* Large name line */}
             <span
               className="
                 mt-2
@@ -219,7 +202,6 @@ export function Hero() {
             </span>
           </h1>
 
-          {/* Role appears after the name finishes */}
           <p
             className={`
               mt-4
@@ -241,7 +223,6 @@ export function Hero() {
             Software Engineer
           </p>
 
-          {/* Remaining hero content */}
           <div
             className={`
               transition-all
@@ -255,7 +236,6 @@ export function Hero() {
             `}
             aria-hidden={!heroContentReady}
           >
-            {/* Intro */}
             <p
               className="
                 mt-5
@@ -271,12 +251,41 @@ export function Hero() {
               {profile.intro}
             </p>
 
-            {/* Mobile portrait */}
-            <div className="mt-7 lg:hidden">
-              <PortraitFrame variant="hero" />
+            {/* <div
+              className="
+                mt-5
+                flex
+                flex-wrap
+                items-center
+                gap-x-3
+                gap-y-2
+                font-mono
+                text-[10px]
+                uppercase
+                tracking-[0.14em]
+                text-muted-foreground/75
+              "
+            >
+              <span>Backend</span>
+              <span className="h-1 w-1 rounded-full bg-accent" />
+
+              <span>Distributed Systems</span>
+              <span className="h-1 w-1 rounded-full bg-accent" />
+
+              <span>Data</span>
+              <span className="h-1 w-1 rounded-full bg-accent" />
+
+              <span>Applied AI</span>
+            </div> */}
+
+            {/* MOBILE PORTRAIT */}
+            <div className="mt-8 lg:hidden">
+              <div className={reducedMotion ? undefined : 'portrait-float'}>
+                <PortraitFrame variant="hero" />
+              </div>
             </div>
 
-            {/* Buttons */}
+            {/* CTA BUTTONS */}
             <div
               className="
                 mt-7
@@ -285,7 +294,7 @@ export function Hero() {
                 items-center
                 gap-2.5
                 sm:gap-3
-                lg:mt-10
+                lg:mt-9
               "
             >
               <a
@@ -306,6 +315,7 @@ export function Hero() {
                   text-primary-foreground
                   transition-all
                   duration-200
+                  hover:-translate-y-0.5
                   hover:opacity-95
                   active:scale-[0.98]
                   sm:px-5
@@ -334,6 +344,7 @@ export function Hero() {
                   text-foreground
                   transition-all
                   duration-200
+                  hover:-translate-y-0.5
                   hover:border-foreground/30
                   hover:bg-secondary/70
                   active:scale-[0.98]
@@ -363,6 +374,7 @@ export function Hero() {
                   text-foreground
                   transition-all
                   duration-200
+                  hover:-translate-y-0.5
                   hover:border-foreground/30
                   hover:bg-secondary/70
                   active:scale-[0.98]
@@ -390,6 +402,7 @@ export function Hero() {
                   text-foreground
                   transition-all
                   duration-200
+                  hover:-translate-y-0.5
                   hover:border-foreground/30
                   hover:bg-secondary/70
                   active:scale-[0.98]
@@ -401,7 +414,7 @@ export function Hero() {
               </a>
             </div>
 
-            {/* Explore */}
+            {/* EXPLORE */}
             <a
               href="#about"
               className="
@@ -419,7 +432,7 @@ export function Hero() {
                 duration-200
                 hover:text-foreground
                 sm:mt-9
-                lg:mt-14
+                lg:mt-12
               "
             >
               Explore
@@ -438,16 +451,18 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Desktop portrait */}
+        {/* RIGHT — CLEAN PORTRAIT */}
         <aside
           className={`
+            relative
             hidden
+            min-h-[500px]
             transition-all
             duration-700
             ease-out
             lg:flex
             lg:items-center
-            lg:justify-end
+            lg:justify-center
             ${
               heroContentReady
                 ? 'translate-x-0 opacity-100'
@@ -456,9 +471,173 @@ export function Hero() {
           `}
           aria-hidden={!heroContentReady}
         >
-          <PortraitFrame variant="hero" />
+          {/* soft copper glow */}
+          <div
+            aria-hidden
+            className="
+              pointer-events-none
+              absolute
+              left-1/2
+              top-[50%]
+              h-[70%]
+              w-[72%]
+              -translate-x-1/2
+              -translate-y-1/2
+              rounded-full
+              bg-accent/[0.12]
+              blur-[95px]
+            "
+          />
+
+          {/* portrait */}
+          <div
+            className={`
+              relative
+              z-10
+              -translate-y-3
+              ${reducedMotion ? '' : 'portrait-float'}
+            `}
+          >
+            <PortraitFrame variant="hero" />
+          </div>
         </aside>
       </div>
+
+      {/* BOTTOM TICKER — fills dead space, reinforces the technical tone */}
+      {/* BOTTOM TICKER */}
+<div
+  className={`
+    absolute
+    inset-x-0
+    bottom-0
+    hidden
+    border-t
+    border-border/60
+    py-3
+    transition-opacity
+    duration-700
+    sm:block
+    ${heroContentReady ? 'opacity-100' : 'opacity-0'}
+  `}
+>
+  <div className="hero-ticker">
+    <div
+      className="
+        hero-ticker__track
+        font-mono
+        text-[10px]
+        uppercase
+        tracking-[0.22em]
+        text-muted-foreground/50
+      "
+    >
+      {/* COPY 1 */}
+      <div className="hero-ticker__group">
+        <span className="hero-ticker__item">
+          Backend and Cloud Developer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Software Engineer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          AI Engineer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Data
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Distributed Systems
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          ML Enthusiast
+          <span className="hero-ticker__dot" />
+        </span>
+      </div>
+
+      {/* COPY 2 */}
+      <div
+        className="hero-ticker__group"
+        aria-hidden="true"
+      >
+        <span className="hero-ticker__item">
+          Backend and Cloud Developer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Software Engineer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          AI Engineer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Data
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Distributed Systems
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          ML Enthusiast
+          <span className="hero-ticker__dot" />
+        </span>
+      </div>
+
+      {/* COPY 3 */}
+      <div
+        className="hero-ticker__group"
+        aria-hidden="true"
+      >
+        <span className="hero-ticker__item">
+          Backend and Cloud Developer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Software Engineer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          AI Engineer
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Data
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          Distributed Systems
+          <span className="hero-ticker__dot" />
+        </span>
+
+        <span className="hero-ticker__item">
+          ML Enthusiast
+          <span className="hero-ticker__dot" />
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
     </section>
   )
 }

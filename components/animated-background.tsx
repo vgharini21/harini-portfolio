@@ -236,7 +236,6 @@ const parallaxY =
       {/* Ambient drifting glow orbs */}
       <div className="bg-orb bg-orb-1" />
       <div className="bg-orb bg-orb-2" />
-      <div className="bg-orb bg-orb-cyan" />
       <div className="bg-orb bg-orb-3" />
 
       {/* Signal network */}

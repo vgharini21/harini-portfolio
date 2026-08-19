@@ -1,4 +1,7 @@
-import { Reveal } from '@/components/reveal'
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+
 import { SectionHeading } from '@/components/section-heading'
 import { skillGroups } from '@/lib/portfolio-data'
 
@@ -54,12 +57,15 @@ import {
   Radio,
 } from 'lucide-react'
 
-import type { ComponentType, SVGProps } from 'react'
+import type {
+  ComponentType,
+  CSSProperties,
+  SVGProps,
+} from 'react'
 
 type SkillIcon = ComponentType<SVGProps<SVGSVGElement>>
 
 const skillIcons: Record<string, SkillIcon> = {
-  // Programming & Languages
   Python: SiPython,
   'C++': Code2,
   Java: SiOpenjdk,
@@ -68,8 +74,8 @@ const skillIcons: Record<string, SkillIcon> = {
   Go: SiGo,
   JavaScript: SiJavascript,
   Bash: Terminal,
+  SQL: Database,
 
-  // Backend & APIs
   'Microservices Architecture': Network,
   'Spring Boot': SiSpringboot,
   FastAPI: SiFastapi,
@@ -81,7 +87,6 @@ const skillIcons: Record<string, SkillIcon> = {
   OpenAPI: FileCode2,
   Swagger: FileCode2,
 
-  // Data / Machine Learning
   TensorFlow: SiTensorflow,
   PyTorch: SiPytorch,
   'Scikit-learn': BrainCircuit,
@@ -93,7 +98,6 @@ const skillIcons: Record<string, SkillIcon> = {
   Akka: Network,
   LangChain: SiLangchain,
 
-  // Databases
   MySQL: SiMysql,
   PostgreSQL: SiPostgresql,
   MongoDB: SiMongodb,
@@ -103,7 +107,6 @@ const skillIcons: Record<string, SkillIcon> = {
   SQLite: SiSqlite,
   Hibernate: Layers3,
 
-  // Cloud / DevOps
   AWS: Cloud,
   Serverless: Cloud,
   Docker: SiDocker,
@@ -117,18 +120,16 @@ const skillIcons: Record<string, SkillIcon> = {
   'Linux/Unix': SiLinux,
   Linux: SiLinux,
   Unix: SiLinux,
+  'CI/CD': Workflow,
 
-  // Streaming / Data
   Kafka: SiApachekafka,
   'Apache Kafka': SiApachekafka,
   Spark: SiApachespark,
   'Apache Spark': SiApachespark,
 
-  // General tools
   Git: SiGit,
   GitHub: SiGithub,
 
-  // Generic fallbacks
   Microservices: Network,
   Databases: Database,
   Cloud: Cloud,
@@ -136,15 +137,341 @@ const skillIcons: Record<string, SkillIcon> = {
   APIs: GitBranch,
 }
 
-const skillDescriptions: Record<string, string> = {
-  AWS: 'Kinesis · Step Functions · CloudFront · CloudFormation · Cognito · Rekognition',
+function useInView<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null)
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const node = ref.current
+
+    if (!node) return
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    if (reducedMotion) {
+      setInView(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true)
+          observer.disconnect()
+        }
+      },
+      {
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px',
+      },
+    )
+
+    observer.observe(node)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
+  return {
+    ref,
+    inView,
+  }
 }
+
+/* -------------------------------------------------------
+   One individual skill
+------------------------------------------------------- */
+
+function SkillItem({
+  skill,
+}: {
+  skill: string
+}) {
+  const Icon =
+    skillIcons[skill] ||
+    (skill.startsWith('AWS') ? Cloud : undefined)
+
+  return (
+    <div
+      className="
+        group/skill
+        flex
+        shrink-0
+        items-center
+        gap-3
+
+        rounded-2xl
+        border
+        border-border/60
+
+        bg-background/45
+
+        px-3.5
+        py-2.5
+
+        backdrop-blur-sm
+
+        transition-all
+        duration-300
+
+        hover:-translate-y-0.5
+        hover:border-accent/35
+        hover:bg-accent/[0.045]
+        hover:shadow-[0_8px_28px_color-mix(in_oklch,var(--accent)_10%,transparent)]
+      "
+    >
+      {/* icon */}
+      <div
+        className="
+          relative
+          flex
+          h-9
+          w-9
+          shrink-0
+          items-center
+          justify-center
+
+          rounded-xl
+
+          border
+          border-border/70
+
+          bg-background/65
+
+          text-foreground
+
+          transition-all
+          duration-300
+
+          group-hover/skill:border-accent/40
+          group-hover/skill:text-accent
+          group-hover/skill:shadow-[0_0_18px_color-mix(in_oklch,var(--accent)_18%,transparent)]
+        "
+      >
+        {Icon ? (
+          <Icon
+            aria-hidden
+            className="
+              h-[18px]
+              w-[18px]
+
+              transition-transform
+              duration-300
+
+              group-hover/skill:scale-110
+            "
+          />
+        ) : (
+          <span
+            aria-hidden
+            className="
+              h-2
+              w-2
+              rounded-full
+              bg-accent
+            "
+          />
+        )}
+
+        <span
+          aria-hidden
+          className="
+            absolute
+            -right-1
+            -top-1
+
+            h-1
+            w-1
+
+            rounded-full
+
+            bg-accent/0
+
+            transition-all
+            duration-300
+
+            group-hover/skill:bg-accent
+            group-hover/skill:shadow-[0_0_7px_var(--accent)]
+          "
+        />
+      </div>
+
+      {/* label */}
+      <div className="min-w-0">
+        <span
+          className="
+            whitespace-nowrap
+            text-[13px]
+            font-medium
+            leading-none
+
+            text-muted-foreground
+
+            transition-colors
+            duration-300
+
+            group-hover/skill:text-foreground
+
+            sm:text-sm
+          "
+        >
+          {skill}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+/* -------------------------------------------------------
+   One ticker row
+------------------------------------------------------- */
+
+function SkillTickerRow({
+  category,
+  skills,
+  reverse = false,
+  rowIndex,
+}: {
+  category: string
+  skills: string[]
+  reverse?: boolean
+  rowIndex: number
+}) {
+  const { ref, inView } = useInView<HTMLDivElement>()
+
+  return (
+    <div
+      ref={ref}
+      className={`
+        transition-all
+        duration-700
+        ease-out
+        ${
+          inView
+            ? 'translate-y-0 opacity-100'
+            : 'translate-y-4 opacity-0'
+        }
+      `}
+      style={{
+        transitionDelay: `${rowIndex * 70}ms`,
+      }}
+    >
+      {/* Category */}
+      <div className="mb-4 flex items-center gap-3 sm:mb-5">
+        <span
+          aria-hidden
+          className="
+            h-1.5
+            w-1.5
+            rounded-full
+            bg-accent
+            shadow-[0_0_8px_color-mix(in_oklch,var(--accent)_65%,transparent)]
+          "
+        />
+
+        <h3
+          className="
+            whitespace-nowrap
+            font-mono
+            text-[10px]
+            uppercase
+            tracking-[0.19em]
+            text-accent
+            sm:text-xs
+          "
+        >
+          {category}
+        </h3>
+
+        <span
+          aria-hidden
+          className="
+            h-px
+            flex-1
+            bg-gradient-to-r
+            from-border
+            to-transparent
+          "
+        />
+      </div>
+
+      {/* Ticker */}
+      <div
+        className="skill-ticker group/ticker relative py-1"
+        tabIndex={0}
+        aria-label={`${category} skills`}
+      >
+        <div
+          className={`
+            skill-ticker__track
+            ${
+              reverse
+                ? 'skill-ticker__track--reverse'
+                : ''
+            }
+          `}
+        >
+          {/* COPY 1 */}
+          <div className="skill-ticker__group">
+            {skills.map((skill) => (
+              <SkillItem
+                key={`first-${skill}`}
+                skill={skill}
+              />
+            ))}
+          </div>
+
+          {/* COPY 2 */}
+          <div
+            className="skill-ticker__group"
+            aria-hidden="true"
+          >
+            {skills.map((skill) => (
+              <SkillItem
+                key={`second-${skill}`}
+                skill={skill}
+              />
+            ))}
+          </div>
+
+          {/* COPY 3 */}
+          <div
+            className="skill-ticker__group"
+            aria-hidden="true"
+          >
+            {skills.map((skill) => (
+              <SkillItem
+                key={`third-${skill}`}
+                skill={skill}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* -------------------------------------------------------
+   Skills section
+------------------------------------------------------- */
 
 export function Skills() {
   return (
     <section
       id="skills"
-      className="relative scroll-mt-20 border-t border-border bg-secondary/40"
+      className="
+        relative
+        scroll-mt-20
+
+        border-t
+        border-border
+
+        bg-secondary/40
+      "
     >
       <div className="section-atmosphere section-atmosphere--warm" />
 
@@ -152,14 +479,18 @@ export function Skills() {
         className="
           relative
           z-10
+
           mx-auto
           max-w-6xl
+
           px-5
+          pb-16
           pt-10
-          pb-14
+
           sm:px-6
+          sm:pb-20
           sm:pt-12
-          sm:pb-16
+
           lg:px-8
           lg:py-24
         "
@@ -172,187 +503,22 @@ export function Skills() {
 
         <div
           className="
-            grid
-            gap-x-14
-            gap-y-10
-            sm:gap-y-12
-            md:grid-cols-2
-            lg:gap-y-16
+            flex
+            flex-col
+            gap-9
+
+            sm:gap-11
+            lg:gap-12
           "
         >
-          {skillGroups.map((group, i) => (
-            <Reveal
+          {skillGroups.map((group, index) => (
+            <SkillTickerRow
               key={group.category}
-              delay={(i % 2) * 80}
-              className="relative"
-            >
-              {/* Category label */}
-              <div className="mb-5 flex items-center gap-3 sm:mb-6 lg:mb-7">
-                <span
-                  aria-hidden
-                  className="
-                    h-1.5
-                    w-1.5
-                    rounded-full
-                    bg-accent
-                    shadow-[0_0_8px_color-mix(in_oklch,var(--accent)_65%,transparent)]
-                  "
-                />
-
-                <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent sm:text-xs">
-                  {group.category}
-                </h3>
-
-                <span
-                  aria-hidden
-                  className="h-px flex-1 bg-gradient-to-r from-border to-transparent"
-                />
-              </div>
-
-              {/* Skill constellation */}
-              <ul
-                className="
-                  flex
-                  flex-wrap
-                  gap-x-5
-                  gap-y-4
-                  sm:gap-x-6
-                  sm:gap-y-5
-                  lg:gap-x-7
-                  lg:gap-y-6
-                "
-              >
-                {group.skills.map((skill, j) => {
-                  const Icon =
-                    skillIcons[skill] ||
-                    (skill.startsWith('AWS') ? Cloud : undefined)
-
-                  return (
-                    <li
-                      key={skill}
-                      className="
-                        group/skill
-                        relative
-                        flex
-                        items-center
-                        gap-2.5
-                        transition-transform
-                        duration-300
-                        hover:-translate-y-1
-                        motion-reduce:hover:translate-y-0
-                        sm:gap-3
-                      "
-                      style={{
-                        transitionDelay: `${Math.min(j, 6) * 15}ms`,
-                      }}
-                    >
-                      {/* Icon node */}
-                      <div
-                        className="
-                          relative
-                          flex
-                          h-9
-                          w-9
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-xl
-                          border
-                          border-border/80
-                          bg-background/55
-                          text-foreground
-                          backdrop-blur-sm
-                          transition-all
-                          duration-300
-                          group-hover/skill:border-accent/40
-                          group-hover/skill:bg-accent/[0.05]
-                          group-hover/skill:text-accent
-                          group-hover/skill:shadow-[0_0_20px_color-mix(in_oklch,var(--accent)_18%,transparent)]
-                          sm:h-10
-                          sm:w-10
-                        "
-                      >
-                        {Icon ? (
-                          <Icon
-                            className="
-                              h-4
-                              w-4
-                              transition-transform
-                              duration-300
-                              group-hover/skill:scale-110
-                              sm:h-5
-                              sm:w-5
-                            "
-                            aria-hidden
-                          />
-                        ) : (
-                          <span
-                            aria-hidden
-                            className="
-                              h-2
-                              w-2
-                              rounded-full
-                              bg-accent/70
-                              shadow-[0_0_6px_color-mix(in_oklch,var(--accent)_45%,transparent)]
-                            "
-                          />
-                        )}
-
-                        <span
-                          aria-hidden
-                          className="
-                            absolute
-                            -right-1
-                            -top-1
-                            h-1
-                            w-1
-                            rounded-full
-                            bg-accent/0
-                            transition-all
-                            duration-300
-                            group-hover/skill:bg-accent/80
-                            group-hover/skill:shadow-[0_0_7px_var(--accent)]
-                          "
-                        />
-                      </div>
-
-                      {/* Skill name */}
-                      <div className="flex min-w-0 flex-col">
-                        <span
-                          className="
-                            text-[13px]
-                            leading-snug
-                            text-muted-foreground
-                            transition-colors
-                            duration-300
-                            group-hover/skill:text-foreground
-                            sm:text-sm
-                          "
-                        >
-                          {skill}
-                        </span>
-
-                        {skillDescriptions[skill] ? (
-                          <span
-                            className="
-                              mt-1
-                              max-w-[210px]
-                              text-[10px]
-                              leading-relaxed
-                              text-muted-foreground/60
-                              sm:max-w-[240px]
-                              sm:text-[11px]
-                            "
-                          >
-                            {skillDescriptions[skill]}
-                          </span>
-                        ) : null}
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
-            </Reveal>
+              category={group.category}
+              skills={group.skills}
+              rowIndex={index}
+              reverse={index % 2 === 1}
+            />
           ))}
         </div>
       </div>
